@@ -17,13 +17,16 @@
 
 // Sets default values
 AGPlayerCharacter::AGPlayerCharacter(const FObjectInitializer& ObjectInitializer)
-: Super(ObjectInitializer.SetDefaultSubobjectClass<UGMovementComponent>(ACharacter::CharacterMovementComponentName))
+: Super(ObjectInitializer.SetDefaultSubobjectClass<UGMovementComponent>(ACharacter::CharacterMovementComponentName)),
+GMovementComponent(Cast<UGMovementComponent>(GetCharacterMovement()))
 {
 	
-	GMovementComponent = Cast<UGMovementComponent>(GetCharacterMovement());
+	
 	GMovementComponent->SetIsReplicated(true);
 
 	PrimaryActorTick.bCanEverTick = true;
+
+
 	// CAPSULE COMPONENT FROM BLUEPRINT
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
 
@@ -99,15 +102,13 @@ void AGPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 
 		// Looking
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AGPlayerCharacter::Look);
+
+		// Crouching
 		
-		
-	}
-	else
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, TEXT("EnhancedInputComponent is null!"));
-	}
 
 	
+	}
+
 }
 
 
@@ -151,22 +152,6 @@ void AGPlayerCharacter::Look(const FInputActionValue& Value)
 		AddControllerPitchInput(LookAxisVector.Y);
 	}
 }
-// Crouch Button Pressed = Crouch and Uncrouch called from Character.cpp
-void AGPlayerCharacter::CrouchButtonPressed()
-{
-	if (bIsCrouched)
-	{
-		UnCrouch();
-	}
-	else
-	{ 
-		Crouch();
-	}
-
-}
-
-
-
 
 
 
@@ -199,5 +184,8 @@ void AGPlayerCharacter::StopJumping()
 	bPressedGhostJump = false;
 	Super::StopJumping();
 }
+
+
+// CROUCH SECTION
 
 
