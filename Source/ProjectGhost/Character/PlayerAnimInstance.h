@@ -19,7 +19,6 @@ class PROJECTGHOST_API UPlayerAnimInstance : public UAnimInstance
 public:
 	virtual void NativeInitializeAnimation() override;
 	virtual void NativeUpdateAnimation(float DeltaTime) override;
-
 	
 	
 };
