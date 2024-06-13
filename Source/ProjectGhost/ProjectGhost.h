@@ -4,3 +4,9 @@
 
 #include "CoreMinimal.h"
 
+
+// Ghost Classes
+class AGPlayerCharacter;
+class UGMovementComponent;
+
+

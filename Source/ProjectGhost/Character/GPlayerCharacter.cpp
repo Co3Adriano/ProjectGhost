@@ -10,14 +10,19 @@
 #include "GameFramework/Controller.h"
 #include "EnhancedInputComponent.h"
 #include "InputActionValue.h"
+#include "GMovementComponent.h"
+#include "Components/CapsuleComponent.h"
 
 
 // Sets default values
-AGPlayerCharacter::AGPlayerCharacter()
+AGPlayerCharacter::AGPlayerCharacter(const FObjectInitializer& ObjectInitializer)
+: Super(ObjectInitializer.SetDefaultSubobjectClass<UGMovementComponent>(ACharacter::CharacterMovementComponentName))
 {
  	
 	PrimaryActorTick.bCanEverTick = true;
-
+	// CAPSULE COMPONENT FROM BLUEPRINT
+	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
+	
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));	
 	CameraBoom->SetupAttachment(GetMesh());
 	CameraBoom->TargetArmLength=600.0f;
@@ -143,6 +148,41 @@ void AGPlayerCharacter::CrouchButtonPressed()
 		Crouch();
 	}
 
+}
+
+
+
+
+
+
+//COSTUME MOVEMENT COMPONENT SECTION
+FCollisionQueryParams AGPlayerCharacter::GetIgnoreCharacterParams() const
+{
+	FCollisionQueryParams Params;
+
+	TArray<AActor*> CharacterChildren;
+	GetAllChildActors(CharacterChildren);
+	Params.AddIgnoredActors(CharacterChildren);
+	Params.AddIgnoredActor(this);
+
+	return Params;
+}
+
+void AGPlayerCharacter::Jump()
+{
+	bPressedGhostJump = true;
+
+	Super::Jump();
+	
+	bPressedJump = false;
+
+	UE_LOG(LogTemp, Warning, TEXT("Jump isserver:%d"), HasAuthority())
+}
+
+void AGPlayerCharacter::StopJumping()
+{
+	bPressedGhostJump = false;
+	Super::StopJumping();
 }
 
 

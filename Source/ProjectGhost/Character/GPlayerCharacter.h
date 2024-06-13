@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "ProjectGhost/ProjectGhost.h"
 #include "CoreMinimal.h"
 #include "EnhancedInputComponent.h"
 #include "GameFramework/Character.h"
@@ -18,7 +19,10 @@ class PROJECTGHOST_API AGPlayerCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
+protected:
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=Movement) UGMovementComponent* GMovementComponent;
 
+public:
 	/** MappingContext */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
 	UInputMappingContext* DefaultMappingContext;
@@ -42,7 +46,7 @@ class PROJECTGHOST_API AGPlayerCharacter : public ACharacter
 	
 public:
 	
-	AGPlayerCharacter();
+	AGPlayerCharacter(const FObjectInitializer& ObjectInitializer);
 	virtual void Tick(float DeltaTime) override;
 
 	
@@ -60,16 +64,25 @@ protected:
 
 	void CrouchButtonPressed();
 
-	
+	//CUSTOM MOVEMENT SECTION
 public:
+	bool bPressedGhostJump;
+	
 
+	virtual void Jump() override;
+	virtual void StopJumping() override;
 
-private:
+public:
 	/*Camera Section*/
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class USpringArmComponent* CameraBoom;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class UCameraComponent* FollowCamera;
+
+	UFUNCTION(BlueprintPure)
+	FORCEINLINE UGMovementComponent* GetGPlayerCharacterMovement() const { return GMovementComponent; }
+
+	FCollisionQueryParams GetIgnoreCharacterParams() const;
 
 };
