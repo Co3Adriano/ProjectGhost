@@ -104,6 +104,11 @@ void AGPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AGPlayerCharacter::Look);
 
 		// Crouching
+		//MOVED TO Blueprint
+		// Sprinting
+		//Moved to Blueprint
+		// Dash
+		//Moved to Blueprint
 		
 
 	
