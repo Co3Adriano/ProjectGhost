@@ -2,9 +2,15 @@
 
 
 #include "GPlayerCharacter.h"
-
-#include "Camera/CameraComponent.h"
+#include "EnhancedInputSubsystems.h"
+#include "Engine/LocalPlayer.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "Camera/CameraComponent.h"
+#include "GameFramework/Controller.h"
+#include "EnhancedInputComponent.h"
+#include "InputActionValue.h"
+
 
 // Sets default values
 AGPlayerCharacter::AGPlayerCharacter()
@@ -15,15 +21,20 @@ AGPlayerCharacter::AGPlayerCharacter()
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));	
 	CameraBoom->SetupAttachment(GetMesh());
 	CameraBoom->TargetArmLength=600.0f;
-	FollowCamera->bUsePawnControlRotation = true;
+	CameraBoom->bUsePawnControlRotation = true;
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
 	FollowCamera->bUsePawnControlRotation = false;
+
+
+
 	
+	GetCharacterMovement()->NavAgentProps.bCanCrouch = true;
 
 }
+////////////////////////////////////////////////////////////////////
+/* BEGIN AND TICK*/
 
-// Called when the game starts or when spawned
 void AGPlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
@@ -37,10 +48,101 @@ void AGPlayerCharacter::Tick(float DeltaTime)
 
 }
 
+/* BEGIN AND TICK END*/
+////////////////////////////////////////////////////////////////////
 
+
+
+
+/* INPUT */
 void AGPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
+	// Add Input Mapping Context
+	if (APlayerController* PlayerController = Cast<APlayerController>(GetController()))
+	{
+		if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer()))
+		{
+			Subsystem->AddMappingContext(DefaultMappingContext, 0);
+		}
+	}
+	
+	// Set up action bindings
+	if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent))
+	{
+		// Jumping
+		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Started, this, &ACharacter::Jump);
+		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &ACharacter::StopJumping);
+
+		// Moving
+		EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AGPlayerCharacter::Move);
+
+		// Looking
+		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AGPlayerCharacter::Look);
+		
+		// Crouching
+		EnhancedInputComponent->BindAction(CrouchAction,ETriggerEvent::Triggered, this, &AGPlayerCharacter::CrouchButtonPressed);
+	}
+	else
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, TEXT("EnhancedInputComponent is null!"));
+	}
+
+	
+}
+
+
+
+/// BASE Movement ///
+// Move
+void AGPlayerCharacter::Move(const FInputActionValue& Value)
+{
+	// input is a Vector2D
+	FVector2D MovementVector = Value.Get<FVector2D>();
+
+	if (Controller != nullptr)
+	{
+		// find out which way is forward
+		const FRotator Rotation = Controller->GetControlRotation();
+		const FRotator YawRotation(0, Rotation.Yaw, 0);
+
+		// get forward vector
+		const FVector ForwardDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
+
+		// get right vector 
+		const FVector RightDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
+
+		
+		
+		// add movement 
+		AddMovementInput(ForwardDirection, MovementVector.Y);
+		AddMovementInput(RightDirection, MovementVector.X);
+	}
+}
+// Look
+void AGPlayerCharacter::Look(const FInputActionValue& Value)
+{
+	// input is a Vector2D
+	FVector2D LookAxisVector = Value.Get<FVector2D>();
+
+	if (Controller != nullptr)
+	{
+		// add yaw and pitch input to controller
+		AddControllerYawInput(LookAxisVector.X);
+		AddControllerPitchInput(LookAxisVector.Y);
+	}
+}
+// Crouch Button Pressed = Crouch and Uncrouch called from Character.cpp
+void AGPlayerCharacter::CrouchButtonPressed()
+{
+	if (bIsCrouched)
+	{
+		UnCrouch();
+	}
+	else
+	{ 
+		Crouch();
+	}
 
 }
+
 
