@@ -2,6 +2,7 @@
 
 #pragma once
 
+
 #include "ProjectGhost/ProjectGhost.h"
 #include "CoreMinimal.h"
 #include "EnhancedInputComponent.h"
@@ -44,7 +45,8 @@ public:
 	UInputAction* CrouchAction;
 
 	
-public:
+	
+
 	
 	AGPlayerCharacter(const FObjectInitializer& ObjectInitializer);
 	virtual void Tick(float DeltaTime) override;

@@ -2,6 +2,8 @@
 
 
 #include "GPlayerCharacter.h"
+
+#include "GMovementComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "Engine/LocalPlayer.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -10,7 +12,6 @@
 #include "GameFramework/Controller.h"
 #include "EnhancedInputComponent.h"
 #include "InputActionValue.h"
-#include "GMovementComponent.h"
 #include "Components/CapsuleComponent.h"
 
 
@@ -18,10 +19,23 @@
 AGPlayerCharacter::AGPlayerCharacter(const FObjectInitializer& ObjectInitializer)
 : Super(ObjectInitializer.SetDefaultSubobjectClass<UGMovementComponent>(ACharacter::CharacterMovementComponentName))
 {
- 	
+	
+	GMovementComponent = Cast<UGMovementComponent>(GetCharacterMovement());
+	GMovementComponent->SetIsReplicated(true);
+
 	PrimaryActorTick.bCanEverTick = true;
 	// CAPSULE COMPONENT FROM BLUEPRINT
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
+
+	// Configure character movement
+	GetCharacterMovement()->bOrientRotationToMovement = true;
+	GetCharacterMovement()->RotationRate = FRotator(0.0f, 500.0f, 0.0f);
+
+	GetCharacterMovement()->JumpZVelocity = 700.f;
+	GetCharacterMovement()->AirControl = 0.35f;
+	GetCharacterMovement()->MaxWalkSpeed = 500.f;
+	GetCharacterMovement()->MinAnalogWalkSpeed = 20.f;
+	GetCharacterMovement()->BrakingDecelerationWalking = 2000.f;
 	
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));	
 	CameraBoom->SetupAttachment(GetMesh());
@@ -35,6 +49,8 @@ AGPlayerCharacter::AGPlayerCharacter(const FObjectInitializer& ObjectInitializer
 
 	
 	GetCharacterMovement()->NavAgentProps.bCanCrouch = true;
+
+	
 
 }
 ////////////////////////////////////////////////////////////////////
@@ -84,8 +100,7 @@ void AGPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 		// Looking
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AGPlayerCharacter::Look);
 		
-		// Crouching
-		EnhancedInputComponent->BindAction(CrouchAction,ETriggerEvent::Triggered, this, &AGPlayerCharacter::CrouchButtonPressed);
+		
 	}
 	else
 	{
