@@ -13,5 +13,11 @@ UCLASS()
 class PROJECTGHOST_API AGPlayerCameraManager : public APlayerCameraManager
 {
 	GENERATED_BODY()
-	
+	UPROPERTY(EditDefaultsOnly) float CrouchBlendDuration=.2f;
+	float CrouchBlendTime;
+
+public:
+	AGPlayerCameraManager();
+
+	virtual void UpdateViewTarget(FTViewTarget& OutVT, float DeltaTime) override;
 };
