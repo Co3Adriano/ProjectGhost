@@ -1,13 +1,15 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Blending Camera for Crouching in Third Person
+// 
+// in BP_PlayerController set CameraManagerClass to AGPlayerCameraManager
 
-
+// STILL THIS SHIT ISN'T WORKING CORRECTLY
 #include "GPlayerCameraManager.h"
 
 #include "GPlayerCharacter.h"
 #include "GMovementComponent.h"
 #include "Components/CapsuleComponent.h"
 
-AGPlayerCameraManager::AGPlayerCameraManager()
+AGPlayerCameraManager::AGPlayerCameraManager(): CrouchBlendTime(0)
 {
 }
 

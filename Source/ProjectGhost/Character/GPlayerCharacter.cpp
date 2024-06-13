@@ -26,7 +26,7 @@ GMovementComponent(Cast<UGMovementComponent>(GetCharacterMovement()))
 
 	PrimaryActorTick.bCanEverTick = true;
 
-
+	bUseControllerRotationPitch = bUseControllerRotationYaw = bUseControllerRotationRoll = false;
 	// CAPSULE COMPONENT FROM BLUEPRINT
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
 
@@ -42,7 +42,7 @@ GMovementComponent(Cast<UGMovementComponent>(GetCharacterMovement()))
 	
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));	
 	CameraBoom->SetupAttachment(GetMesh());
-	CameraBoom->TargetArmLength=600.0f;
+	CameraBoom->TargetArmLength=400.0f;
 	CameraBoom->bUsePawnControlRotation = true;
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);

@@ -13,7 +13,7 @@ UCLASS()
 class PROJECTGHOST_API AGPlayerCameraManager : public APlayerCameraManager
 {
 	GENERATED_BODY()
-	UPROPERTY(EditDefaultsOnly) float CrouchBlendDuration=.2f;
+	UPROPERTY(EditDefaultsOnly) float CrouchBlendDuration=.9f;
 	float CrouchBlendTime;
 
 public:
