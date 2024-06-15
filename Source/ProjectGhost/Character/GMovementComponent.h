@@ -6,7 +6,6 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "CoreMinimal.h"
 #include "GPlayerCharacter.h"
-#include "GameFramework/CharacterMovementComponent.h"
 #include "GMovementComponent.generated.h"
 
 #define WITH_ARBITRARY_GRAVITY ENGINE_MAJOR_VERSION > 5 || (ENGINE_MAJOR_VERSION == 5 && ENGINE_MINOR_VERSION >= 3)

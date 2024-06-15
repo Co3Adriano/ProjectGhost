@@ -313,17 +313,22 @@ bool UGMovementComponent::DoJump(bool bReplayingMoves)
 // Movement Pipeline
 void UGMovementComponent::UpdateCharacterStateBeforeMovement(float DeltaSeconds)
 {
+	
 	// Slide
 	if (MovementMode == MOVE_Walking && !bWantsToCrouch && Safe_bPrevWantsToCrouch)
 	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT(" if Movement Mode Slide"));
 		if (CanSlide())
-		{
+		{ 
 			SetMovementMode(MOVE_Custom, CMOVE_Slide);
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT(" Set Movement Mode Slide"));
+			
 		}
 	}
 	else if (IsCustomMovementMode(CMOVE_Slide) && !bWantsToCrouch)
 	{
 		SetMovementMode(MOVE_Walking);
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT(" else if Movement Mode Slide"));
 	}
 	else if (IsFalling() && bWantsToCrouch)
 	{
@@ -337,8 +342,9 @@ void UGMovementComponent::UpdateCharacterStateBeforeMovement(float DeltaSeconds)
 	// Prone
 	if (Safe_bWantsToProne) 
 	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT(" can prone call "));
 		if (CanProne())
-		{
+		{	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT(" can prone call set prone mode"));
 			SetMovementMode(MOVE_Custom, CMOVE_Prone);
 			if (!CharacterOwner->HasAuthority()) Server_EnterProne();
 		}
@@ -433,6 +439,7 @@ void UGMovementComponent::UpdateCharacterStateBeforeMovement(float DeltaSeconds)
 
 void UGMovementComponent::UpdateCharacterStateAfterMovement(float DeltaSeconds)
 {
+	
 	Super::UpdateCharacterStateAfterMovement(DeltaSeconds);
 
 	if (!HasAnimRootMotion() && Safe_bHadAnimRootMotion && IsMovementMode(MOVE_Flying))
@@ -581,6 +588,9 @@ void UGMovementComponent::CallServerMovePacked(const FSavedMove_Character* NewMo
 
 void UGMovementComponent::EnterSlide(EMovementMode PrevMode, ECustomMovementMode PrevCustomMode)
 {
+
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Slide Enter"));
+	
 	bWantsToCrouch = true;
 	bOrientRotationToMovement = false;
 	Velocity += Velocity.GetSafeNormal2D() * SlideEnterImpulse;
@@ -589,11 +599,13 @@ void UGMovementComponent::EnterSlide(EMovementMode PrevMode, ECustomMovementMode
 }
 void UGMovementComponent::ExitSlide()
 {
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Slide exit"));
 	bWantsToCrouch = false;
 	bOrientRotationToMovement = true;
 }
 bool UGMovementComponent::CanSlide() const
 {
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT(" Can slide call  Movement Mode Slide"));
 	FVector Start = UpdatedComponent->GetComponentLocation();
 	FVector End = Start + CharacterOwner->GetCapsuleComponent()->GetScaledCapsuleHalfHeight() * 2.5f * FVector::DownVector;
 	FName ProfileName = TEXT("BlockAll");
@@ -605,6 +617,7 @@ bool UGMovementComponent::CanSlide() const
 
 void UGMovementComponent::PhysSlide(float deltaTime, int32 Iterations)
 {
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Phys Slide"));
 	if (deltaTime < MIN_TICK_TIME)
 	{
 		return;
@@ -1250,6 +1263,7 @@ SLOG("Starting WallRun")
 
 void UGMovementComponent::PhysWallRun(float deltaTime, int32 Iterations)
 {
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT(" if Phys WallRun Mode Slide"));
 	if (deltaTime < MIN_TICK_TIME)
 	{
 		return;
