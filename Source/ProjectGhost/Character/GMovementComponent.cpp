@@ -23,7 +23,10 @@ float MacroDuration = 2.f;
 #endif
 #pragma region Saved Move
 
-UGMovementComponent::FSavedMove_Ghost::FSavedMove_Ghost()
+UGMovementComponent::FSavedMove_Ghost::FSavedMove_Ghost(): Saved_bPressedGhostJump(0), Saved_bWantsToDash(0),
+                                                           Saved_bHadAnimRootMotion(0),
+                                                           Saved_bTransitionFinished(0),
+                                                           Saved_bWallRunIsRight(0)
 {
 	Saved_bWantsToSprint = 0;
 	Saved_bWantsToProne = 0;
@@ -136,7 +139,29 @@ FSavedMovePtr UGMovementComponent::FNetworkPredictionData_Client_Ghost::Allocate
 	return FSavedMovePtr(new FSavedMove_Ghost());
 }
 
-UGMovementComponent::UGMovementComponent()
+UGMovementComponent::UGMovementComponent(): DashMontage(nullptr), TallMantleMontage(nullptr),
+                                            TransitionTallMantleMontage(nullptr),
+                                            ProxyTallMantleMontage(nullptr),
+                                            ShortMantleMontage(nullptr),
+                                            TransitionShortMantleMontage(nullptr),
+                                            ProxyShortMantleMontage(nullptr),
+                                            WallRunGravityScaleCurve(nullptr),
+                                            TransitionHangMontage(nullptr),
+                                            WallJumpMontage(nullptr),
+                                            GPlayerCharacterOwner(nullptr),
+                                            Safe_bWantsToSprint(false),
+                                            Safe_bWantsToProne(false),
+                                            Safe_bWantsToDash(false),
+                                            Safe_bHadAnimRootMotion(false),
+                                            Safe_bPrevWantsToCrouch(false),
+                                            DashStartTime(0),
+                                            Safe_bTransitionFinished(false),
+                                            TransitionQueuedMontage(nullptr),
+                                            TransitionQueuedMontageSpeed(0),
+                                            TransitionRMS_ID(0),
+                                            Safe_bWallRunIsRight(false), Proxy_bDash(false),
+                                            Proxy_bShortMantle(false),
+                                            Proxy_bTallMantle(false)
 {
 	NavAgentProps.bCanCrouch = true;
 	GhostServerMoveBitWriter.SetAllowResize(true);
