@@ -21,7 +21,6 @@ class PROJECTGHOST_API AGPlayerCharacter : public ACharacter
 	GENERATED_BODY()
 
 protected:
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=Movement) UGMovementComponent* GMovementComponent;
 
 public:
 	/** MappingContext */
@@ -39,6 +38,10 @@ public:
 	/** Look Input Action */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
 	UInputAction* LookAction;
+
+	// Custom Movement Component
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Movement")
+	UGMovementComponent* GMovementComponent;
 
 	
 	

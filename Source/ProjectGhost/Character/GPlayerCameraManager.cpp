@@ -20,6 +20,7 @@ void AGPlayerCameraManager::UpdateViewTarget(FTViewTarget& OutVT, float DeltaTim
 	if (AGPlayerCharacter* PlayerCharacter = Cast<AGPlayerCharacter>(GetOwningPlayerController()->GetPawn()))
 	{
 		UGMovementComponent* PMC = PlayerCharacter->GetGPlayerCharacterMovement();
+		
 		FVector TargetCrouchOffset = FVector(
 			0,
 			0,

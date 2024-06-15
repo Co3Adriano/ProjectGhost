@@ -17,11 +17,9 @@
 
 // Sets default values
 AGPlayerCharacter::AGPlayerCharacter(const FObjectInitializer& ObjectInitializer)
-: Super(ObjectInitializer.SetDefaultSubobjectClass<UGMovementComponent>(ACharacter::CharacterMovementComponentName)),
-GMovementComponent(Cast<UGMovementComponent>(GetCharacterMovement()))
+: Super(ObjectInitializer.SetDefaultSubobjectClass<UGMovementComponent>(ACharacter::CharacterMovementComponentName))
 {
-	
-	
+	GMovementComponent=Cast<UGMovementComponent>(GetCharacterMovement());
 	GMovementComponent->SetIsReplicated(true);
 
 	PrimaryActorTick.bCanEverTick = true;
