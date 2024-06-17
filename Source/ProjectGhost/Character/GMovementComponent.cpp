@@ -172,6 +172,7 @@ void UGMovementComponent::TickComponent(float DeltaTime, ELevelTick TickType, FA
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
+	
 	TickCount++;
 	if (IsNetMode(NM_Client))
 	{
@@ -630,13 +631,14 @@ void UGMovementComponent::ExitSlide()
 }
 bool UGMovementComponent::CanSlide() const
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT(" Can slide call  Movement Mode Slide"));
+
 	FVector Start = UpdatedComponent->GetComponentLocation();
 	FVector End = Start + CharacterOwner->GetCapsuleComponent()->GetScaledCapsuleHalfHeight() * 2.5f * FVector::DownVector;
 	FName ProfileName = TEXT("BlockAll");
 	bool bValidSurface = GetWorld()->LineTraceTestByProfile(Start, End, ProfileName, GPlayerCharacterOwner->GetIgnoreCharacterParams());
 	bool bEnoughSpeed = Velocity.SizeSquared() > pow(MinSlideSpeed, 2);
-	
+	// bValidSurface && bEnoughSpeed;
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT(" Can slide " + FString::SanitizeFloat(bValidSurface) + " " + FString::SanitizeFloat(bEnoughSpeed)));
 	return bValidSurface && bEnoughSpeed;
 }
 
@@ -651,6 +653,7 @@ void UGMovementComponent::PhysSlide(float deltaTime, int32 Iterations)
 	
 	if (!CanSlide())
 	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Can not slide"));
 		SetMovementMode(MOVE_Walking);
 		StartNewPhysics(deltaTime, Iterations);
 		return;
@@ -664,6 +667,7 @@ void UGMovementComponent::PhysSlide(float deltaTime, int32 Iterations)
 	// Perform the move
 	while ( (remainingTime >= MIN_TICK_TIME) && (Iterations < MaxSimulationIterations) && CharacterOwner && (CharacterOwner->Controller || bRunPhysicsWithNoController || (CharacterOwner->GetLocalRole() == ROLE_SimulatedProxy)) )
 	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Phys Slide while"));
 		Iterations++;
 		bJustTeleported = false;
 		const float timeTick = GetSimulationTimeStep(remainingTime, Iterations);
@@ -863,6 +867,7 @@ void UGMovementComponent::EnterProne(EMovementMode PrevMode, ECustomMovementMode
 	if (PrevMode == MOVE_Custom && PrevCustomMode == CMOVE_Slide)
 	{
 		Velocity += Velocity.GetSafeNormal2D() * ProneSlideEnterImpulse;
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Prone Enter"));
 	}
 
 	FindFloor(UpdatedComponent->GetComponentLocation(), CurrentFloor, true, NULL);

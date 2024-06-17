@@ -42,9 +42,7 @@ public:
 	// Custom Movement Component
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Movement")
 	UGMovementComponent* GMovementComponent;
-
-	
-	
+		
 	
 
 	
@@ -84,6 +82,7 @@ public:
 
 	UFUNCTION(BlueprintPure)
 	FORCEINLINE UGMovementComponent* GetGPlayerCharacterMovement() const { return GMovementComponent; }
+
 
 	FCollisionQueryParams GetIgnoreCharacterParams() const;
 

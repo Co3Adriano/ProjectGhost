@@ -22,9 +22,11 @@ AGPlayerCharacter::AGPlayerCharacter(const FObjectInitializer& ObjectInitializer
 	GMovementComponent=Cast<UGMovementComponent>(GetCharacterMovement());
 	GMovementComponent->SetIsReplicated(true);
 
+
+	
 	PrimaryActorTick.bCanEverTick = true;
 
-	bUseControllerRotationPitch = bUseControllerRotationYaw = bUseControllerRotationRoll = false;
+
 	// CAPSULE COMPONENT FROM BLUEPRINT
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
 
@@ -67,6 +69,11 @@ void AGPlayerCharacter::BeginPlay()
 void AGPlayerCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	
+
+	
+	
 
 }
 
