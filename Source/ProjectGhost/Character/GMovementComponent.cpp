@@ -1090,6 +1090,7 @@ void UGMovementComponent::PerformDash()
 	SetMovementMode(MOVE_Flying);
 	
 	CharacterOwner->PlayAnimMontage(DashMontage);
+
 	
 	DashStartDelegate.Broadcast();
 }
