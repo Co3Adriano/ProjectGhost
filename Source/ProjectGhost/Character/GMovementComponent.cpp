@@ -328,7 +328,7 @@ bool UGMovementComponent::DoJump(bool bReplayingMoves)
 				GPlayerCharacterOwner->PlayAnimMontage(WallJumpMontage);
 			}
 			Velocity += FVector::UpVector * WallJumpForce * .5f;
-			Velocity += Acceleration.GetSafeNormal2D() * WallJumpForce * .5f;
+			Velocity += Acceleration.GetSafeNormal2D() * WallJumpForce * 0.2f;
 		}
 		return true;
 	}

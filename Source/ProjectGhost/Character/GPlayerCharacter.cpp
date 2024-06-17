@@ -13,6 +13,7 @@
 #include "EnhancedInputComponent.h"
 #include "InputActionValue.h"
 #include "Components/CapsuleComponent.h"
+#include "PhysicsEngine/PhysicsConstraintComponent.h"
 
 
 // Sets default values
@@ -53,7 +54,13 @@ AGPlayerCharacter::AGPlayerCharacter(const FObjectInitializer& ObjectInitializer
 	
 	GetCharacterMovement()->NavAgentProps.bCanCrouch = true;
 
+
+
+
+
+
 	
+
 
 }
 ////////////////////////////////////////////////////////////////////
@@ -82,8 +89,7 @@ void AGPlayerCharacter::Tick(float DeltaTime)
 
 
 
-
-/* INPUT */
+           /* INPUT */
 void AGPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	// Add Input Mapping Context
@@ -108,14 +114,12 @@ void AGPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 		// Looking
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AGPlayerCharacter::Look);
 
-		// Crouching
-		//MOVED TO Blueprint
-		// Sprinting
-		//Moved to Blueprint
-		// Dash
-		//Moved to Blueprint
-		
 
+		// Grapple Hook Input Action
+
+	
+		
+	
 	
 	}
 
@@ -196,6 +200,11 @@ void AGPlayerCharacter::StopJumping()
 }
 
 
-// CROUCH SECTION
+// CROUCH SECTION Seamless???
+
+
+
+
+
 
 

@@ -5,8 +5,10 @@
 
 #include "ProjectGhost/ProjectGhost.h"
 #include "CoreMinimal.h"
+#include "CableComponent.h"
 #include "EnhancedInputComponent.h"
 #include "GameFramework/Character.h"
+#include "PhysicsEngine/PhysicsConstraintComponent.h"
 #include "GPlayerCharacter.generated.h"
 
 
@@ -19,8 +21,6 @@ UCLASS()
 class PROJECTGHOST_API AGPlayerCharacter : public ACharacter
 {
 	GENERATED_BODY()
-
-protected:
 
 public:
 	/** MappingContext */
@@ -42,8 +42,9 @@ public:
 	// Custom Movement Component
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Movement")
 	UGMovementComponent* GMovementComponent;
-		
-	
+
+
+public:
 
 	
 	AGPlayerCharacter(const FObjectInitializer& ObjectInitializer);
