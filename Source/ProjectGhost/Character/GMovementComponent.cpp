@@ -341,7 +341,8 @@ void UGMovementComponent::UpdateCharacterStateBeforeMovement(float DeltaSeconds)
 {
 	
 	// Slide
-	if (MovementMode == MOVE_Walking && !bWantsToCrouch && Safe_bPrevWantsToCrouch)
+	// for double tap crouch slide  "&& !bWantsToCrouch" after Move_Walking
+	if (MovementMode == MOVE_Walking  && Safe_bPrevWantsToCrouch)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT(" if Movement Mode Slide"));
 		if (CanSlide())
