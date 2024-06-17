@@ -344,18 +344,18 @@ void UGMovementComponent::UpdateCharacterStateBeforeMovement(float DeltaSeconds)
 	// for double tap crouch slide  "&& !bWantsToCrouch" after Move_Walking
 	if (MovementMode == MOVE_Walking  && Safe_bPrevWantsToCrouch)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT(" if Movement Mode Slide"));
+		
 		if (CanSlide())
 		{ 
 			SetMovementMode(MOVE_Custom, CMOVE_Slide);
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT(" Set Movement Mode Slide"));
+			
 			
 		}
 	}
 	else if (IsCustomMovementMode(CMOVE_Slide) && !bWantsToCrouch)
 	{
 		SetMovementMode(MOVE_Walking);
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT(" else if Movement Mode Slide"));
+		
 	}
 	else if (IsFalling() && bWantsToCrouch)
 	{
@@ -369,9 +369,9 @@ void UGMovementComponent::UpdateCharacterStateBeforeMovement(float DeltaSeconds)
 	// Prone
 	if (Safe_bWantsToProne) 
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT(" can prone call "));
+		
 		if (CanProne())
-		{	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT(" can prone call set prone mode"));
+		{	
 			SetMovementMode(MOVE_Custom, CMOVE_Prone);
 			if (!CharacterOwner->HasAuthority()) Server_EnterProne();
 		}
@@ -616,7 +616,7 @@ void UGMovementComponent::CallServerMovePacked(const FSavedMove_Character* NewMo
 void UGMovementComponent::EnterSlide(EMovementMode PrevMode, ECustomMovementMode PrevCustomMode)
 {
 
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Slide Enter"));
+	
 	
 	bWantsToCrouch = true;
 	bOrientRotationToMovement = false;
@@ -626,7 +626,7 @@ void UGMovementComponent::EnterSlide(EMovementMode PrevMode, ECustomMovementMode
 }
 void UGMovementComponent::ExitSlide()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Slide exit"));
+	
 	bWantsToCrouch = false;
 	bOrientRotationToMovement = true;
 }
@@ -639,13 +639,13 @@ bool UGMovementComponent::CanSlide() const
 	bool bValidSurface = GetWorld()->LineTraceTestByProfile(Start, End, ProfileName, GPlayerCharacterOwner->GetIgnoreCharacterParams());
 	bool bEnoughSpeed = Velocity.SizeSquared() > pow(MinSlideSpeed, 2);
 	// bValidSurface && bEnoughSpeed;
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT(" Can slide " + FString::SanitizeFloat(bValidSurface) + " " + FString::SanitizeFloat(bEnoughSpeed)));
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT(" Can slide " + FString::SanitizeFloat(bValidSurface) + " " + FString::SanitizeFloat(bEnoughSpeed)));
 	return bValidSurface && bEnoughSpeed;
 }
 
 void UGMovementComponent::PhysSlide(float deltaTime, int32 Iterations)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Phys Slide"));
+	
 	if (deltaTime < MIN_TICK_TIME)
 	{
 		return;
@@ -654,7 +654,7 @@ void UGMovementComponent::PhysSlide(float deltaTime, int32 Iterations)
 	
 	if (!CanSlide())
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Can not slide"));
+		
 		SetMovementMode(MOVE_Walking);
 		StartNewPhysics(deltaTime, Iterations);
 		return;
@@ -668,7 +668,7 @@ void UGMovementComponent::PhysSlide(float deltaTime, int32 Iterations)
 	// Perform the move
 	while ( (remainingTime >= MIN_TICK_TIME) && (Iterations < MaxSimulationIterations) && CharacterOwner && (CharacterOwner->Controller || bRunPhysicsWithNoController || (CharacterOwner->GetLocalRole() == ROLE_SimulatedProxy)) )
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Phys Slide while"));
+		
 		Iterations++;
 		bJustTeleported = false;
 		const float timeTick = GetSimulationTimeStep(remainingTime, Iterations);
@@ -868,7 +868,7 @@ void UGMovementComponent::EnterProne(EMovementMode PrevMode, ECustomMovementMode
 	if (PrevMode == MOVE_Custom && PrevCustomMode == CMOVE_Slide)
 	{
 		Velocity += Velocity.GetSafeNormal2D() * ProneSlideEnterImpulse;
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Prone Enter"));
+		SLOG("Prone Enter");
 	}
 
 	FindFloor(UpdatedComponent->GetComponentLocation(), CurrentFloor, true, NULL);
@@ -1294,7 +1294,7 @@ SLOG("Starting WallRun")
 
 void UGMovementComponent::PhysWallRun(float deltaTime, int32 Iterations)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT(" if Phys WallRun Mode Slide"));
+	
 	if (deltaTime < MIN_TICK_TIME)
 	{
 		return;
