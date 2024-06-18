@@ -45,8 +45,7 @@ public:
 
 
 public:
-
-	
+		
 	AGPlayerCharacter(const FObjectInitializer& ObjectInitializer);
 	virtual void Tick(float DeltaTime) override;
 
@@ -87,4 +86,10 @@ public:
 
 	FCollisionQueryParams GetIgnoreCharacterParams() const;
 
+
+	// CUSTOM MOVEMENT SECTION
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Widgets", meta = (AllowPrivateAccess = "true"))
+	class UWidgetComponent* OverheadWidget;
+	
+	
 };
