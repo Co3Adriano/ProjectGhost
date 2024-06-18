@@ -1326,7 +1326,7 @@ void UGMovementComponent::PhysWallRun(float deltaTime, int32 Iterations)
 		FHitResult WallHit;
 		GetWorld()->LineTraceSingleByProfile(WallHit, Start, End, "BlockAll", Params);
 		bool bWantsToPullAway = WallHit.IsValidBlockingHit() && !Acceleration.IsNearlyZero() && (Acceleration.GetSafeNormal() | WallHit.Normal) > SinPullAwayAngle;
-		if (!WallHit.IsValidBlockingHit() || bWantsToPullAway)
+		if (!WallHit.IsValidBlockingHit() || bWantsToPullAway || WallHit.GetActor()->ActorHasTag("ClimbWall"))
 		{
 			SetMovementMode(MOVE_Falling);
 			StartNewPhysics(remainingTime, Iterations);
@@ -1474,6 +1474,8 @@ bool UGMovementComponent::TryClimb()
 	FQuat NewRotation = FRotationMatrix::MakeFromXZ(-SurfHit.Normal, FVector::UpVector).ToQuat();
 	SafeMoveUpdatedComponent(FVector::ZeroVector, NewRotation, false, SurfHit);
 
+	
+
 	SetMovementMode(MOVE_Custom, CMOVE_Climb);
 
 	bOrientRotationToMovement = false;
@@ -1501,7 +1503,7 @@ void UGMovementComponent::PhysClimb(float deltaTime, int32 Iterations)
 	FHitResult SurfHit, FloorHit;
 	GetWorld()->LineTraceSingleByProfile(SurfHit, OldLocation, OldLocation + UpdatedComponent->GetForwardVector() * ClimbReachDistance, "BlockAll", GPlayerCharacterOwner->GetIgnoreCharacterParams());
 	GetWorld()->LineTraceSingleByProfile(FloorHit, OldLocation, OldLocation + FVector::DownVector * CapHH() * 1.2f, "BlockAll", GPlayerCharacterOwner->GetIgnoreCharacterParams());
-	if (!SurfHit.IsValidBlockingHit() || FloorHit.IsValidBlockingHit())
+	if (!SurfHit.IsValidBlockingHit() || FloorHit.IsValidBlockingHit() || !SurfHit.GetActor()->ActorHasTag("ClimbWall"))
 	{
 		SetMovementMode(MOVE_Falling);
 		StartNewPhysics(deltaTime, Iterations);
