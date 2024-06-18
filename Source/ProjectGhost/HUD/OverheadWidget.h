@@ -19,12 +19,12 @@ public:
 	class UTextBlock* DisplayText;
 
 	
-	void SetDisplayText(const FString& TextToDisplay) const;
+	void SetDisplayText( FString TextToDisplay);
 
 
 	UFUNCTION(BlueprintCallable)
-	
-	void ShowPlayerNetRole(const APawn* InPawn) const;
+
+	void ShowPlayerNetRole(APawn* InPawn);
 
 protected: 
 	virtual void NativeDestruct() override;

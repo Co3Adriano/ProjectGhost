@@ -2,11 +2,10 @@
 
 
 #include "OverheadWidget.h"
-
 #include "Components/TextBlock.h"
 
 
-void UOverheadWidget::SetDisplayText(const FString& TextToDisplay) const
+void UOverheadWidget::SetDisplayText(FString TextToDisplay) 
 {
 
 	if (DisplayText)
@@ -17,8 +16,7 @@ void UOverheadWidget::SetDisplayText(const FString& TextToDisplay) const
 }
 
 
-
-void UOverheadWidget::ShowPlayerNetRole(const APawn* InPawn) const
+void UOverheadWidget::ShowPlayerNetRole( APawn* InPawn) 
 {
 	ENetRole LocalRole = InPawn->GetLocalRole();
 	FString Role;
@@ -44,7 +42,6 @@ void UOverheadWidget::ShowPlayerNetRole(const APawn* InPawn) const
 	}
 	FString LocalRoleString = FString::Printf(TEXT("Local Role : %s"), *Role);
 	SetDisplayText(LocalRoleString);
-
 
 }
 

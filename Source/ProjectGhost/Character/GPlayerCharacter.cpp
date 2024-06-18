@@ -16,6 +16,7 @@
 #include "Components/WidgetComponent.h"
 
 
+
 // Sets default values
 AGPlayerCharacter::AGPlayerCharacter(const FObjectInitializer& ObjectInitializer)
 : Super(ObjectInitializer.SetDefaultSubobjectClass<UGMovementComponent>(ACharacter::CharacterMovementComponentName))
@@ -53,9 +54,10 @@ AGPlayerCharacter::AGPlayerCharacter(const FObjectInitializer& ObjectInitializer
 
 
 	// Overhead Widget Section
-
-	OverheadWidget->CreateDefaultSubobject<UWidgetComponent>(TEXT("OverheadWidget"));
+	OverheadWidget  = CreateDefaultSubobject<UWidgetComponent>(TEXT("OverheadWidget"));
 	OverheadWidget->SetupAttachment(RootComponent);
+
+	
 
 
 
