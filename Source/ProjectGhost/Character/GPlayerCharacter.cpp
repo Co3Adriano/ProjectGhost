@@ -13,7 +13,7 @@
 #include "EnhancedInputComponent.h"
 #include "InputActionValue.h"
 #include "Components/CapsuleComponent.h"
-#include "PhysicsEngine/PhysicsConstraintComponent.h"
+
 
 
 // Sets default values
@@ -23,10 +23,7 @@ AGPlayerCharacter::AGPlayerCharacter(const FObjectInitializer& ObjectInitializer
 	GMovementComponent=Cast<UGMovementComponent>(GetCharacterMovement());
 	GMovementComponent->SetIsReplicated(true);
 
-
-	
 	PrimaryActorTick.bCanEverTick = true;
-
 
 	// CAPSULE COMPONENT FROM BLUEPRINT
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
@@ -49,9 +46,6 @@ AGPlayerCharacter::AGPlayerCharacter(const FObjectInitializer& ObjectInitializer
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
 	FollowCamera->bUsePawnControlRotation = false;
 
-
-
-	
 	GetCharacterMovement()->NavAgentProps.bCanCrouch = true;
 
 
@@ -61,18 +55,15 @@ AGPlayerCharacter::AGPlayerCharacter(const FObjectInitializer& ObjectInitializer
 
 	
 
-
 }
+
 ////////////////////////////////////////////////////////////////////
 /* BEGIN AND TICK*/
-
 void AGPlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	
 }
-
-
 void AGPlayerCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
@@ -83,13 +74,11 @@ void AGPlayerCharacter::Tick(float DeltaTime)
 	
 
 }
-
 /* BEGIN AND TICK END*/
 ////////////////////////////////////////////////////////////////////
 
 
-
-           /* INPUT */
+/* INPUT */
 void AGPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	// Add Input Mapping Context
