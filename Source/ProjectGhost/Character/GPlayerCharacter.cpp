@@ -14,7 +14,8 @@
 #include "InputActionValue.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/WidgetComponent.h"
-
+#include "Net/UnrealNetwork.h"
+#include "ProjectGhost/Weapon/Weapon.h"
 
 
 // Sets default values
@@ -61,11 +62,18 @@ AGPlayerCharacter::AGPlayerCharacter(const FObjectInitializer& ObjectInitializer
 
 
 
-
-
-	
-
 }
+
+
+void AGPlayerCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME_CONDITION(AGPlayerCharacter, OverlappingWeapon, COND_OwnerOnly);
+}
+
+
+
 
 ////////////////////////////////////////////////////////////////////
 /* BEGIN AND TICK*/
@@ -78,12 +86,11 @@ void AGPlayerCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	
-
-	
-	
 
 }
+
+
+
 /* BEGIN AND TICK END*/
 ////////////////////////////////////////////////////////////////////
 
@@ -180,6 +187,8 @@ FCollisionQueryParams AGPlayerCharacter::GetIgnoreCharacterParams() const
 	return Params;
 }
 
+
+
 void AGPlayerCharacter::Jump()
 {
 	bPressedGhostJump = true;
@@ -196,6 +205,40 @@ void AGPlayerCharacter::StopJumping()
 	bPressedGhostJump = false;
 	Super::StopJumping();
 }
+
+
+
+void AGPlayerCharacter::SetOverlappingWeapon(AWeapon* Weapon)
+{
+	if(OverlappingWeapon)
+	{
+		OverlappingWeapon->ShowPickupWidget(false);
+	}
+	OverlappingWeapon = Weapon;
+
+	if(IsLocallyControlled())
+	{
+		if(OverlappingWeapon)
+		{
+			OverlappingWeapon->ShowPickupWidget(true);
+		}
+	}
+	
+}
+void AGPlayerCharacter::OnRep_OverlappingWeapon(AWeapon* LastWeapon)
+{
+	if(OverlappingWeapon)
+	{
+		OverlappingWeapon->ShowPickupWidget(true);
+	}
+	if(LastWeapon)
+	{
+		LastWeapon->ShowPickupWidget(false);
+		
+	}
+}
+
+
 
 
 // CROUCH SECTION Seamless???

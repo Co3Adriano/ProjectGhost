@@ -50,7 +50,7 @@ public:
 	AGPlayerCharacter(const FObjectInitializer& ObjectInitializer);
 	virtual void Tick(float DeltaTime) override;
 
-	
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 protected:
@@ -73,7 +73,8 @@ public:
 	virtual void Jump() override;
 	virtual void StopJumping() override;
 
-public:
+
+	//CUSTOM MOVEMENT SECTION
 	/*Camera Section*/
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class USpringArmComponent* CameraBoom;
@@ -87,10 +88,18 @@ public:
 
 	FCollisionQueryParams GetIgnoreCharacterParams() const;
 
-
-	// CUSTOM MOVEMENT SECTION
+private:
+	/*Widget Section*/
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Widgets", meta = (AllowPrivateAccess = "true"))
 	class UWidgetComponent* OverheadWidget;
-	
+
+	UPROPERTY(ReplicatedUsing = OnRep_OverlappingWeapon)
+	class AWeapon* OverlappingWeapon;
+
+	UFUNCTION()
+	void OnRep_OverlappingWeapon(AWeapon* LastWeapon);
+
+public:
+	 void SetOverlappingWeapon(AWeapon* Weapon);
 	
 };
