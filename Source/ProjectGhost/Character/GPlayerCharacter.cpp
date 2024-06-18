@@ -115,7 +115,6 @@ void AGPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AGPlayerCharacter::Look);
 
 
-		// Grapple Hook Input Action
 
 	
 		

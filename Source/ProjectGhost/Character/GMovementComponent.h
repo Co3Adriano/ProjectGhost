@@ -30,6 +30,8 @@ class PROJECTGHOST_API UGMovementComponent : public UCharacterMovementComponent
 {
 	GENERATED_BODY()
 
+
+	// SnapShots of all the state data required for frame of Movement-> Replicated a minimum version of the data.
 	class FSavedMove_Ghost : public FSavedMove_Character
 	{
 	public:
@@ -42,6 +44,7 @@ class PROJECTGHOST_API UGMovementComponent : public UCharacterMovementComponent
 		};
 		
 		// Flags
+		// Automatically Update if Safe_bWantsToSprint or Safe_bWantsToDash changes
 		uint8 Saved_bPressedGhostJump:1;
 		uint8 Saved_bWantsToSprint:1;
 		uint8 Saved_bWantsToDash:1;
@@ -56,8 +59,11 @@ class PROJECTGHOST_API UGMovementComponent : public UCharacterMovementComponent
 
 		FSavedMove_Ghost();
 
+		//Can we Combine with this move? please run this move twice
 		virtual bool CanCombineWith(const FSavedMovePtr& NewMove, ACharacter* InCharacter, float MaxDelta) const override;
+		//reset flags
 		virtual void Clear() override;
+		
 		virtual uint8 GetCompressedFlags() const override;
 		virtual void SetMoveFor(ACharacter* C, float InDeltaTime, FVector const& NewAccel, FNetworkPredictionData_Client_Character& ClientData) override;
 		virtual void PrepMoveFor(ACharacter* C) override;
@@ -135,6 +141,7 @@ class PROJECTGHOST_API UGMovementComponent : public UCharacterMovementComponent
 		UPROPERTY(Transient) AGPlayerCharacter* GPlayerCharacterOwner;
 
 		// Flags
+		// Set/Get on Client -> Replicates Through Functions -> Thread Save
 		bool Safe_bWantsToSprint;
 		bool Safe_bWantsToProne;
 		bool Safe_bWantsToDash;

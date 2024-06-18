@@ -52,7 +52,8 @@ bool UGMovementComponent::FSavedMove_Ghost::CanCombineWith(const FSavedMovePtr& 
 	{
 		return false;
 	}
-	
+
+	// there is a lot more Data in the default saved move class that get sent 
 	return FSavedMove_Character::CanCombineWith(NewMove, InCharacter, MaxDelta);
 }
 
@@ -74,7 +75,7 @@ void UGMovementComponent::FSavedMove_Ghost::Clear()
 	Saved_bWallRunIsRight = 0;
 }
 
-
+// COMPRESSED FLAGS WHICH WILL BE SENT TO THE SERVER
 uint8 UGMovementComponent::FSavedMove_Ghost::GetCompressedFlags() const
 {
 	uint8 Result = FSavedMove_Character::GetCompressedFlags();
@@ -87,6 +88,8 @@ uint8 UGMovementComponent::FSavedMove_Ghost::GetCompressedFlags() const
 }
 
 
+// CAPTURE STATE DATA OF CHARACTER MOVEMENT COMPONENT
+// Set the respective Saved -> Current Value of the Character Movement Component
 void UGMovementComponent::FSavedMove_Ghost::SetMoveFor(ACharacter* C, float InDeltaTime, FVector const& NewAccel, FNetworkPredictionData_Client_Character& ClientData)
 {
 	FSavedMove_Character::SetMoveFor(C, InDeltaTime, NewAccel, ClientData);
@@ -106,7 +109,7 @@ void UGMovementComponent::FSavedMove_Ghost::SetMoveFor(ACharacter* C, float InDe
 	Saved_bWallRunIsRight = CharacterMovement->Safe_bWallRunIsRight;
 }
 
-
+//	TAKE THE DATA in the Saved Move FROM THE SERVER AND APPLY IT TO THE CHARACTER MOVEMENT COMPONENT 
 void UGMovementComponent::FSavedMove_Ghost::PrepMoveFor(ACharacter* C)
 {
 	FSavedMove_Character::PrepMoveFor(C);
@@ -129,9 +132,11 @@ void UGMovementComponent::FSavedMove_Ghost::PrepMoveFor(ACharacter* C)
 
 #pragma region Client Network Prediction Data
 
+// USING OUR OWN SAVED MOVE 
 UGMovementComponent::FNetworkPredictionData_Client_Ghost::FNetworkPredictionData_Client_Ghost(const UCharacterMovementComponent& ClientMovement)
 : Super(ClientMovement)
 {
+	
 }
 
 FSavedMovePtr UGMovementComponent::FNetworkPredictionData_Client_Ghost::AllocateNewMove()
