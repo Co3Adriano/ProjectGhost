@@ -18,7 +18,19 @@
 #include "ProjectGhost/Combat/CombatComponent.h"
 #include "ProjectGhost/Weapon/Weapon.h"
 
-
+// Helper Macros
+#if 0
+float MacroDuration = 2.f;
+#define SLOG(x) GEngine->AddOnScreenDebugMessage(-1, MacroDuration ? MacroDuration : -1.f, FColor::Yellow, x);
+#define POINT(x, c) DrawDebugPoint(GetWorld(), x, 10, c, !MacroDuration, MacroDuration);
+#define LINE(x1, x2, c) DrawDebugLine(GetWorld(), x1, x2, c, !MacroDuration, MacroDuration);
+#define CAPSULE(x, c) DrawDebugCapsule(GetWorld(), x, CapHH(), CapR(), FQuat::Identity, c, !MacroDuration, MacroDuration);
+#else
+#define SLOG(x)
+#define POINT(x, c)
+#define LINE(x1, x2, c)
+#define CAPSULE(x, c)
+#endif
 // Sets default values
 AGPlayerCharacter::AGPlayerCharacter(const FObjectInitializer& ObjectInitializer)
 : Super(ObjectInitializer.SetDefaultSubobjectClass<UGMovementComponent>(ACharacter::CharacterMovementComponentName))
@@ -126,8 +138,10 @@ void AGPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 
 		EnhancedInputComponent->BindAction(UseAction, ETriggerEvent::Triggered, this, &AGPlayerCharacter::Use);
 
-	
-		
+
+		// Crouch Function 
+		EnhancedInputComponent->BindAction(CrouchAction, ETriggerEvent::Started, this, &AGPlayerCharacter::CrouchButtonPressed);
+		EnhancedInputComponent->BindAction(CrouchAction, ETriggerEvent::Completed, this, &AGPlayerCharacter::CrouchButtonReleased);
 	
 	
 	}
@@ -309,7 +323,34 @@ bool AGPlayerCharacter::IsWeaponEquipped()
 }
 
 
-// CROUCH SECTION Seamless???
+// CROUCH SECTION coming from GMovementComponent
+
+void AGPlayerCharacter::CrouchButtonPressed()
+{
+	if(GMovementComponent)
+	{
+		GMovementComponent->CrouchPressed();
+	}
+	else
+	{
+		SLOG("GMovementComponent is NULL");
+	}
+	
+}
+
+void AGPlayerCharacter::CrouchButtonReleased()
+{
+	if(GMovementComponent)
+	{
+		GMovementComponent->CrouchReleased();
+	}
+	else
+	{
+		SLOG("GMovementComponent is NULL");
+	}
+	
+}
+
 
 
 

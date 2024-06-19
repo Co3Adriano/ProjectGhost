@@ -40,6 +40,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
 	UInputAction* LookAction;
 
+	/** Crouch Action Input*/
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
+	UInputAction* CrouchAction;
+	
 	/** Use Action Input*/
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
 	UInputAction* UseAction;
@@ -110,6 +114,8 @@ private:
 	class UCombatComponent* Combat;
 	
 public:
-	 void SetOverlappingWeapon(AWeapon* Weapon);
+	void SetOverlappingWeapon(AWeapon* Weapon);
 	bool IsWeaponEquipped();
+	void CrouchButtonPressed();
+	void CrouchButtonReleased();
 };
