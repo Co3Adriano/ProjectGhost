@@ -241,6 +241,9 @@ void AGPlayerCharacter::SetOverlappingWeapon(AWeapon* Weapon)
 	}
 	
 }
+
+
+
 void AGPlayerCharacter::OnRep_OverlappingWeapon(AWeapon* LastWeapon)
 {
 	if(OverlappingWeapon)
@@ -297,6 +300,12 @@ void AGPlayerCharacter::ServerUse_Implementation()
 		}
 	}
 
+}
+
+ 
+bool AGPlayerCharacter::IsWeaponEquipped()
+{
+	return(Combat && Combat->EquippedWeapon);
 }
 
 

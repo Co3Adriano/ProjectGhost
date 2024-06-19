@@ -59,7 +59,7 @@ void UCombatComponent::EquipWeapon(AWeapon* WeaponToEquip)
 		if (WeaponToEquip == nullptr) UE_LOG(LogTemp, Warning, TEXT("WeaponToEquip is null"));
 	}
 	EquippedWeapon->SetOwner(Character);
-	EquippedWeapon->ShowPickupWidget(false);
+	
 }
 
 void UCombatComponent::OnRep_EquippedWeapon()
