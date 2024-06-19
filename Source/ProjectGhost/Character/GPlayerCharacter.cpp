@@ -15,6 +15,7 @@
 #include "Components/CapsuleComponent.h"
 #include "Components/WidgetComponent.h"
 #include "Net/UnrealNetwork.h"
+#include "ProjectGhost/Combat/CombatComponent.h"
 #include "ProjectGhost/Weapon/Weapon.h"
 
 
@@ -58,6 +59,8 @@ AGPlayerCharacter::AGPlayerCharacter(const FObjectInitializer& ObjectInitializer
 	OverheadWidget  = CreateDefaultSubobject<UWidgetComponent>(TEXT("OverheadWidget"));
 	OverheadWidget->SetupAttachment(RootComponent);
 
+	Combat = CreateDefaultSubobject<UCombatComponent>(TEXT("Combat Component"));
+	Combat-> SetIsReplicated(true);
 	
 
 
@@ -95,6 +98,7 @@ void AGPlayerCharacter::Tick(float DeltaTime)
 ////////////////////////////////////////////////////////////////////
 
 
+
 /* INPUT */
 void AGPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
@@ -120,7 +124,7 @@ void AGPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 		// Looking
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AGPlayerCharacter::Look);
 
-
+		EnhancedInputComponent->BindAction(UseAction, ETriggerEvent::Triggered, this, &AGPlayerCharacter::Use);
 
 	
 		
@@ -130,6 +134,17 @@ void AGPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 
 }
 
+void AGPlayerCharacter::PostInitializeComponents()
+{
+	Super::PostInitializeComponents();
+
+	if(Combat)
+	{
+		Combat->Character = this;
+		
+	}
+	
+}
 
 
 /// BASE Movement ///
@@ -171,6 +186,7 @@ void AGPlayerCharacter::Look(const FInputActionValue& Value)
 		AddControllerPitchInput(LookAxisVector.Y);
 	}
 }
+
 
 
 
@@ -239,6 +255,49 @@ void AGPlayerCharacter::OnRep_OverlappingWeapon(AWeapon* LastWeapon)
 }
 
 
+
+
+void AGPlayerCharacter::Use()
+{
+	if (Combat)
+	{
+		if (HasAuthority())
+		{
+			Combat->EquipWeapon(OverlappingWeapon);
+			
+			
+		}
+		else
+		{
+			ServerUse();
+
+		}
+		
+		
+		if (OverlappingWeapon)
+		{
+			
+			GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Red, TEXT("Has Rifle set to True"));
+		}
+	}
+}
+
+void AGPlayerCharacter::ServerUse_Implementation()
+{
+	if (Combat)
+	{
+
+		Combat->EquipWeapon(OverlappingWeapon);
+
+		
+		if (OverlappingWeapon)
+		{
+			
+			GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Red, TEXT("Has Rifle set to True"));
+		}
+	}
+
+}
 
 
 // CROUCH SECTION Seamless???

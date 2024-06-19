@@ -40,6 +40,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
 	UInputAction* LookAction;
 
+	/** Use Action Input*/
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
+	UInputAction* UseAction;
+	
 	// Custom Movement Component
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Movement")
 	UGMovementComponent* GMovementComponent;
@@ -53,17 +57,19 @@ public:
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	virtual void PostInitializeComponents() override;
 protected:
-
+	// BASE MOVEMENT SECTION
 	virtual void BeginPlay() override;
-
-	/** Called for movement input */
 	void Move(const FInputActionValue& Value);
-
-	/** Called for looking input */
 	void Look(const FInputActionValue& Value);
 
-	
+
+	// USE SECTION
+	UFUNCTION(Server, Reliable)
+	void ServerUse();
+	void Use();
+
 
 	//CUSTOM MOVEMENT SECTION
 public:
@@ -99,6 +105,10 @@ private:
 	UFUNCTION()
 	void OnRep_OverlappingWeapon(AWeapon* LastWeapon);
 
+
+	UPROPERTY(VisibleAnywhere)
+	class UCombatComponent* Combat;
+	
 public:
 	 void SetOverlappingWeapon(AWeapon* Weapon);
 	

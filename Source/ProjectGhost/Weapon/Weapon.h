@@ -62,7 +62,7 @@ private:
 	UPROPERTY(VisibleAnywhere,Category = "Weapon")
 	class USphereComponent* AreaSphere;
 
-	UPROPERTY(Replicated, VisibleAnywhere,Category = "Weapon")
+	UPROPERTY(ReplicatedUsing = OnRep_WeaponState, VisibleAnywhere,Category = "Weapon")
 	EWeaponState WeaponState;
 	
 	UFUNCTION()
@@ -75,5 +75,6 @@ public:
 
 	void SetWeaponState(EWeaponState State);
 	FORCEINLINE  USphereComponent* GetAreaSphere() const { return AreaSphere; }
+	
 
 };
