@@ -47,7 +47,9 @@ public:
 	/** Use Action Input*/
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
 	UInputAction* UseAction;
-	
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
+	UInputAction* AimAction;
 	// Custom Movement Component
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Movement")
 	UGMovementComponent* GMovementComponent;
@@ -118,4 +120,7 @@ public:
 	bool IsWeaponEquipped();
 	void CrouchButtonPressed();
 	void CrouchButtonReleased();
+	void AimButtonPressed();
+	void AimButtonReleased();
+	bool IsAiming();
 };

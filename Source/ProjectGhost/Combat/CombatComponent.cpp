@@ -7,6 +7,7 @@
 #include "Net/UnrealNetwork.h"
 #include "ProjectGhost/Character/GPlayerCharacter.h"
 #include "ProjectGhost/Weapon/Weapon.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 UCombatComponent::UCombatComponent()
 {
@@ -59,6 +60,15 @@ void UCombatComponent::EquipWeapon(AWeapon* WeaponToEquip)
 		if (WeaponToEquip == nullptr) UE_LOG(LogTemp, Warning, TEXT("WeaponToEquip is null"));
 	}
 	EquippedWeapon->SetOwner(Character);
+
+	// issue for client facing direction not updated on the server side  (on client everything is fine) facing old Direction without moving in the corresponding direction
+	// OnRep_EquippedWeapon doenst replicate facing direction on the server side
+	// EquipWeapon works on the server side so it should be fine
+
+	/*Character->GetCharacterMovement()->bOrientRotationToMovement = false;
+	Character->bUseControllerRotationYaw = true;
+	*/
+	
 	
 }
 
@@ -67,6 +77,8 @@ void UCombatComponent::OnRep_EquippedWeapon()
 	if (EquippedWeapon && Character)
 	{
 		EquippedWeapon->SetWeaponState(EWeaponState::EWS_Equipped);
+		Character->GetCharacterMovement()->bOrientRotationToMovement = false;
+		Character->bUseControllerRotationYaw = true;
 		
 	}
 }

@@ -143,6 +143,10 @@ void AGPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 		EnhancedInputComponent->BindAction(CrouchAction, ETriggerEvent::Started, this, &AGPlayerCharacter::CrouchButtonPressed);
 		EnhancedInputComponent->BindAction(CrouchAction, ETriggerEvent::Completed, this, &AGPlayerCharacter::CrouchButtonReleased);
 	
+		// Crouch Function 
+		EnhancedInputComponent->BindAction(AimAction, ETriggerEvent::Started, this, &AGPlayerCharacter::AimButtonPressed);
+		EnhancedInputComponent->BindAction(AimAction, ETriggerEvent::Completed, this, &AGPlayerCharacter::AimButtonReleased);
+	
 	
 	}
 
@@ -351,8 +355,26 @@ void AGPlayerCharacter::CrouchButtonReleased()
 	
 }
 
+void AGPlayerCharacter::AimButtonPressed()
+{
+	if(Combat)
+	{
+		Combat->SetAiming(true);
+	}
+}
+void AGPlayerCharacter::AimButtonReleased()
+{
+	if (Combat)
+	{
+		Combat->SetAiming(false);
+	}
+}
 
 
+bool AGPlayerCharacter::IsAiming()
+{
+	return (Combat && Combat->bAiming);
+}
 
 
 
