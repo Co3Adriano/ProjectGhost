@@ -37,8 +37,10 @@ void UPlayerAnimInstance::NativeUpdateAnimation(float DeltaTime)
 	bIsAiming = GCharacter->IsAiming();
 	FRotator AimRotation = GCharacter->GetBaseAimRotation();
 	FRotator MovementRotation = UKismetMathLibrary::MakeRotFromX(GCharacter->GetVelocity());
-	YawOffset  = UKismetMathLibrary::NormalizedDeltaRotator(MovementRotation, AimRotation).Yaw;
-
+	FRotator DeltaRot = UKismetMathLibrary::NormalizedDeltaRotator(MovementRotation, AimRotation);
+	DeltaRotation = FMath::RInterpTo(DeltaRotation, DeltaRot, DeltaTime, 6.f);
+	YawOffset = DeltaRotation.Yaw;
+	
 	CharacterRotationLastFrame = CharacterRotation;
 	CharacterRotation = GCharacter->GetActorRotation();
 	const FRotator Delta =UKismetMathLibrary::NormalizedDeltaRotator(CharacterRotation, CharacterRotationLastFrame);
@@ -46,4 +48,7 @@ void UPlayerAnimInstance::NativeUpdateAnimation(float DeltaTime)
 	const float Interp = FMath::FInterpTo(Lean, Target, DeltaTime, 6.0f);
 	Lean = FMath::Clamp(Interp, -90.0f, 90.0f);
 
+
+
+	
 }

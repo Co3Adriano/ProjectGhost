@@ -63,11 +63,11 @@ void UCombatComponent::EquipWeapon(AWeapon* WeaponToEquip)
 
 	// issue for client facing direction not updated on the server side  (on client everything is fine) facing old Direction without moving in the corresponding direction
 	// OnRep_EquippedWeapon doenst replicate facing direction on the server side
-	// EquipWeapon works on the server side so it should be fine
+	// EquipWeapon works wonly locally on the server side so it should be fine
 
-	/*Character->GetCharacterMovement()->bOrientRotationToMovement = false;
+	Character->GetCharacterMovement()->bOrientRotationToMovement = false;
 	Character->bUseControllerRotationYaw = true;
-	*/
+	
 	
 	
 }
