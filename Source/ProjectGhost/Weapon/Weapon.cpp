@@ -16,7 +16,8 @@ AWeapon::AWeapon()
 	bReplicates = true;
 	
 
-	WeaponMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("WeaponMesh"));
+	WeaponMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("WeaponMesh"));
+	
 	WeaponMesh->SetupAttachment(RootComponent);
 	SetRootComponent(WeaponMesh);
 

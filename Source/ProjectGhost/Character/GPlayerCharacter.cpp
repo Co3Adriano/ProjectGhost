@@ -413,12 +413,16 @@ void AGPlayerCharacter::AimButtonReleased()
 }
 
 
-bool AGPlayerCharacter::IsAiming()
+bool AGPlayerCharacter::IsAiming() const
 {
 	return (Combat && Combat->bAiming);
 }
 
-
+AWeapon* AGPlayerCharacter::GetEquippedWeapon() const
+{
+	if (Combat == nullptr) return nullptr;
+	return Combat->EquippedWeapon;
+}
 
 
 

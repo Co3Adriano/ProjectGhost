@@ -134,7 +134,8 @@ public:
 	void CrouchButtonReleased();
 	void AimButtonPressed();
 	void AimButtonReleased();
-	bool IsAiming();
+	bool IsAiming() const;
+	AWeapon* GetEquippedWeapon() const;
 
 	FORCEINLINE float GetAO_Yaw() const { return AO_Yaw; }
 	FORCEINLINE float GetAO_Pitch() const { return AO_Pitch; }

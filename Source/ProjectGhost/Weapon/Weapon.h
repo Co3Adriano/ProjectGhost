@@ -56,8 +56,8 @@ protected:
 	virtual void BeginPlay() override;
 
 private:
-	UPROPERTY(VisibleAnywhere,Category = "Weapon")
-	UStaticMeshComponent* WeaponMesh;
+	UPROPERTY(EditAnywhere,  Category = "Weapon", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<USkeletalMeshComponent> WeaponMesh;
 
 	UPROPERTY(VisibleAnywhere,Category = "Weapon")
 	class USphereComponent* AreaSphere;
@@ -75,6 +75,7 @@ public:
 
 	void SetWeaponState(EWeaponState State);
 	FORCEINLINE  USphereComponent* GetAreaSphere() const { return AreaSphere; }
-	
+
+	FORCEINLINE USkeletalMeshComponent* GetWeaponMesh() const { return WeaponMesh; }
 
 };
