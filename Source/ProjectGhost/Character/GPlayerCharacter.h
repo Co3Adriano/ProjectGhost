@@ -77,6 +77,12 @@ protected:
 	void Use();
 
 
+//AIM OFFSET SECTION
+
+	void AimOffset(float DeltaTime);
+	
+
+	
 	//CUSTOM MOVEMENT SECTION
 public:
 	bool bPressedGhostJump;
@@ -114,6 +120,12 @@ private:
 
 	UPROPERTY(VisibleAnywhere)
 	class UCombatComponent* Combat;
+
+	float AO_Yaw;
+
+	float AO_Pitch;
+
+	FRotator StartingAimRotation;
 	
 public:
 	void SetOverlappingWeapon(AWeapon* Weapon);
@@ -123,4 +135,7 @@ public:
 	void AimButtonPressed();
 	void AimButtonReleased();
 	bool IsAiming();
+
+	FORCEINLINE float GetAO_Yaw() const { return AO_Yaw; }
+	FORCEINLINE float GetAO_Pitch() const { return AO_Pitch; }
 };

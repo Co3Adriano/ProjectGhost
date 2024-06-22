@@ -12,6 +12,8 @@
 UCombatComponent::UCombatComponent()
 {
 	
+	
+	
 	PrimaryComponentTick.bCanEverTick = false;
 
 	BaseWalkSpeed = 400.f;
@@ -68,7 +70,8 @@ void UCombatComponent::EquipWeapon(AWeapon* WeaponToEquip)
 	// EquipWeapon works wonly locally on the server side so it should be fine
 
 	Character->GetCharacterMovement()->bOrientRotationToMovement = false;
-	Character->bUseControllerRotationYaw = true;
+
+	//Character->bUseControllerRotationYaw = false;
 	
 	
 	
@@ -80,7 +83,9 @@ void UCombatComponent::OnRep_EquippedWeapon()
 	{
 		EquippedWeapon->SetWeaponState(EWeaponState::EWS_Equipped);
 		Character->GetCharacterMovement()->bOrientRotationToMovement = false;
-		Character->bUseControllerRotationYaw = true;
+
+		
+		//Character->bUseControllerRotationYaw = false;
 		
 	}
 }

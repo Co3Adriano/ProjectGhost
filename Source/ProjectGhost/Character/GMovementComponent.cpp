@@ -1078,6 +1078,8 @@ void UGMovementComponent::PhysProne(float deltaTime, int32 Iterations)
 
 #pragma region Dash
 
+// TODO: Dash in Direction of Movement instead of Forward Direction
+
 void UGMovementComponent::OnDashCooldownFinished()
 {
 	Safe_bWantsToDash = true;
@@ -1090,6 +1092,20 @@ bool UGMovementComponent::CanDash() const
 
 void UGMovementComponent::PerformDash()
 {
+	
+	// Max Payne Dash Ability
+	// Pseudo Code: Dash in Direction of Movement
+	// 1. Get Direction of Movement
+	//CharacterOwner->GetVelocity().Normalize();
+	// Line Trace In Direction
+	// IK Upper Body / Lower Body
+	
+	// 2. Dash in Direction
+	//
+	// 3.Set Movement Mode
+	// 4.Play Montage
+	// 5. 
+	
 	DashStartTime = GetWorld()->GetTimeSeconds();
 	
 	SetMovementMode(MOVE_Flying);
