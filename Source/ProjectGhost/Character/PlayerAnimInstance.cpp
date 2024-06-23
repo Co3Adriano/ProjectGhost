@@ -38,6 +38,8 @@ void UPlayerAnimInstance::NativeUpdateAnimation(float DeltaTime)
 	EquippedWeapon = GCharacter->GetEquippedWeapon();
 	bIsCrouched = GCharacter->bIsCrouched;
 	bIsAiming = GCharacter->IsAiming();
+	TurningInPlace = GCharacter->GetTurningInPlace();
+
 	FRotator AimRotation = GCharacter->GetBaseAimRotation();
 	FRotator MovementRotation = UKismetMathLibrary::MakeRotFromX(GCharacter->GetVelocity());
 	FRotator DeltaRot = UKismetMathLibrary::NormalizedDeltaRotator(MovementRotation, AimRotation);

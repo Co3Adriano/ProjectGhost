@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Animation/AnimInstance.h"
+#include "ProjectGhost/DataTypes/TurningInPlace.h"
 #include "PlayerAnimInstance.generated.h"
 
 /**
@@ -69,4 +70,7 @@ private:
 
 	UPROPERTY(BlueprintReadOnly, Category  = "Movement", meta = (AllowPrivateAccess = "true") )
 	FTransform LeftHandTransform;
+
+	UPROPERTY(BlueprintReadOnly, Category  = "Movement", meta = (AllowPrivateAccess = "true") )
+	ETurningInPlace TurningInPlace;
 };

@@ -7,7 +7,7 @@
 #include "CoreMinimal.h"
 #include "CableComponent.h"
 #include "EnhancedInputComponent.h"
-
+#include "ProjectGhost/DataTypes/TurningInPlace.h"
 #include "GameFramework/Character.h"
 #include "PhysicsEngine/PhysicsConstraintComponent.h"
 #include "GPlayerCharacter.generated.h"
@@ -126,6 +126,8 @@ private:
 	float AO_Pitch;
 
 	FRotator StartingAimRotation;
+
+	ETurningInPlace TurningInPlace;
 	
 public:
 	void SetOverlappingWeapon(AWeapon* Weapon);
@@ -138,5 +140,9 @@ public:
 	AWeapon* GetEquippedWeapon() const;
 
 	FORCEINLINE float GetAO_Yaw() const { return AO_Yaw; }
+
 	FORCEINLINE float GetAO_Pitch() const { return AO_Pitch; }
+
+
+	FORCEINLINE ETurningInPlace GetTurningInPlace() const { return TurningInPlace; }
 };
