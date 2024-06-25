@@ -38,6 +38,10 @@ AGPlayerCharacter::AGPlayerCharacter(const FObjectInitializer& ObjectInitializer
 {
 	GMovementComponent=Cast<UGMovementComponent>(GetCharacterMovement());
 	GMovementComponent->SetIsReplicated(true);
+
+
+	NetUpdateFrequency = 66.f;
+	MinNetUpdateFrequency = 33.f;
 	
 	PrimaryActorTick.bCanEverTick = true;
 
