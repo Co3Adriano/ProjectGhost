@@ -122,7 +122,7 @@ private:
 	class UCombatComponent* Combat;
 
 	float AO_Yaw;
-
+	float Interp_AO_Yaw;
 	float AO_Pitch;
 
 	FRotator StartingAimRotation;

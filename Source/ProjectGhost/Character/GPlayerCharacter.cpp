@@ -63,8 +63,8 @@ AGPlayerCharacter::AGPlayerCharacter(const FObjectInitializer& ObjectInitializer
 	FollowCamera->bUsePawnControlRotation = false;
 
 	// Orient rotation to movement 
-	bUseControllerRotationYaw = false;
-	GetCharacterMovement()->bOrientRotationToMovement = true;
+	bUseControllerRotationYaw = true;
+	GetCharacterMovement()->bOrientRotationToMovement = false;
 	GetCharacterMovement()->NavAgentProps.bCanCrouch = true;
 
 
@@ -313,20 +313,27 @@ void AGPlayerCharacter::AimOffset(float DeltaTime)
 	float Speed = Velocity.Size();
 	bool bIsInAir = GetCharacterMovement()->IsFalling();
 
-	if (Speed == 0.f && !bIsInAir) // standing still, not jumping
+	if (Speed == 0.f && !bIsInAir) // standing or crouching
 	{
 		FRotator CurrentAimRotation = FRotator(0.f, GetBaseAimRotation().Yaw, 0.f);
 		FRotator DeltaAimRotation = UKismetMathLibrary::NormalizedDeltaRotator(CurrentAimRotation, StartingAimRotation);
+
+		
+
 		AO_Yaw = DeltaAimRotation.Yaw;
+		if(TurningInPlace == ETurningInPlace::ETIP_NotTurning)
+		{
+			Interp_AO_Yaw = AO_Yaw;
+		}
 		TurnInPlace(DeltaTime);
-		//bUseControllerRotationYaw = false;
+		
 	}
 	if (Speed > 0.f || bIsInAir) // running, or jumping
 	{
 		StartingAimRotation = FRotator(0.f, GetBaseAimRotation().Yaw, 0.f);
 		AO_Yaw = 0.f;
 		TurningInPlace = ETurningInPlace::ETIP_NotTurning;
-		//bUseControllerRotationYaw = true;
+		
 	}
 	AO_Pitch = GetBaseAimRotation().Pitch;
 
@@ -359,6 +366,17 @@ void AGPlayerCharacter::TurnInPlace(float DeltaTime)
 		TurningInPlace = ETurningInPlace::ETIP_Left;
 	}
 	
+	if(TurningInPlace != ETurningInPlace::ETIP_NotTurning)
+	{
+		Interp_AO_Yaw = FMath::FInterpTo(Interp_AO_Yaw, 0.f, DeltaTime, 5.f);
+		AO_Yaw = Interp_AO_Yaw;
+
+		if(FMath::Abs(AO_Yaw) < 15.f)
+		{
+			TurningInPlace = ETurningInPlace::ETIP_NotTurning;
+			StartingAimRotation = FRotator(0.f, GetBaseAimRotation().Yaw, 0.f);
+		}
+	}
 }
 
 
