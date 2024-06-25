@@ -231,10 +231,14 @@ FCollisionQueryParams AGPlayerCharacter::GetIgnoreCharacterParams() const
 void AGPlayerCharacter::Jump()
 {
 	bPressedGhostJump = true;
-
+	
 	Super::Jump();
 	
 	bPressedJump = false;
+
+	UnCrouch();
+	
+	
 
 	UE_LOG(LogTemp, Warning, TEXT("Jump isserver:%d"), HasAuthority())
 }

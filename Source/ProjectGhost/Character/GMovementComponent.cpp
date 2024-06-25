@@ -314,6 +314,7 @@ bool UGMovementComponent::DoJump(bool bReplayingMoves)
 {
 	bool bWasWallRunning = IsWallRunning();
 	bool bWasOnWall = IsHanging() || IsClimbing();
+
 	if (Super::DoJump(bReplayingMoves))
 	{
 		if (bWasWallRunning)

@@ -53,6 +53,11 @@
 		{
 			"Name": "ReplicatedCharTrajectory",
 			"Enabled": true
+		},
+		{
+			"Name": "Nody_FootStep",
+			"Enabled": true,
+			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/product/60b20f0886ac49b4a0ffca3f881c9cec"
 		}
 	]
 }
