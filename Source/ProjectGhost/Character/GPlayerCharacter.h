@@ -50,6 +50,12 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
 	UInputAction* AimAction;
+
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
+	UInputAction* FireAction;
+
+
 	// Custom Movement Component
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Movement")
 	UGMovementComponent* GMovementComponent;
@@ -81,7 +87,11 @@ protected:
 
 	void AimOffset(float DeltaTime);
 	
+//FIRE SECTION
 
+	void FireButtonPressed();
+	void FireButtonReleased();
+	
 	
 	//CUSTOM MOVEMENT SECTION
 public:

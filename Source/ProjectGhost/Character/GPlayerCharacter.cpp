@@ -148,9 +148,13 @@ void AGPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 		EnhancedInputComponent->BindAction(CrouchAction, ETriggerEvent::Started, this, &AGPlayerCharacter::CrouchButtonPressed);
 		EnhancedInputComponent->BindAction(CrouchAction, ETriggerEvent::Completed, this, &AGPlayerCharacter::CrouchButtonReleased);
 	
-		// Crouch Function 
+		// Aim Function 
 		EnhancedInputComponent->BindAction(AimAction, ETriggerEvent::Started, this, &AGPlayerCharacter::AimButtonPressed);
 		EnhancedInputComponent->BindAction(AimAction, ETriggerEvent::Completed, this, &AGPlayerCharacter::AimButtonReleased);
+
+		//Fire Function
+		EnhancedInputComponent->BindAction(FireAction, ETriggerEvent::Started, this, &AGPlayerCharacter::FireButtonPressed);
+		EnhancedInputComponent->BindAction(FireAction, ETriggerEvent::Completed, this, &AGPlayerCharacter::FireButtonReleased);
 	
 	
 	}
@@ -359,7 +363,25 @@ void AGPlayerCharacter::AimOffset(float DeltaTime)
 
 	
 }
-	
+
+void AGPlayerCharacter::FireButtonPressed()
+{
+	if(Combat)
+	{
+		Combat->FireButtonPressed(true);
+		
+	}
+}
+
+void AGPlayerCharacter::FireButtonReleased()
+{
+	if(Combat)
+	{
+		Combat->FireButtonPressed(false);
+		
+	}
+}
+
 void AGPlayerCharacter::TurnInPlace(float DeltaTime)
 {
 

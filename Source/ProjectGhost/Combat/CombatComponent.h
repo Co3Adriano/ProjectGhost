@@ -20,6 +20,8 @@ public:
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	void EquipWeapon(class AWeapon* WeaponToEquip);
 
+
+protected:
 	virtual void BeginPlay() override;
 	
 
@@ -31,6 +33,9 @@ public:
 	UFUNCTION(Server, Reliable)
 	void ServerSetAiming(bool bIsAiming);
 
+	void FireButtonPressed(bool bPressed);
+
+	bool bFireButtonPressed;
 	
 
 private:
