@@ -75,7 +75,7 @@ AGPlayerCharacter::AGPlayerCharacter(const FObjectInitializer& ObjectInitializer
 	Combat = CreateDefaultSubobject<UCombatComponent>(TEXT("Combat Component"));
 	Combat-> SetIsReplicated(true);
 	
-
+	TurningInPlace = ETurningInPlace::ETIP_NotTurning;
 
 
 }
@@ -243,6 +243,7 @@ void AGPlayerCharacter::StopJumping()
 
 
 
+
 void AGPlayerCharacter::SetOverlappingWeapon(AWeapon* Weapon)
 {
 	if(OverlappingWeapon)
@@ -317,12 +318,14 @@ void AGPlayerCharacter::AimOffset(float DeltaTime)
 		FRotator CurrentAimRotation = FRotator(0.f, GetBaseAimRotation().Yaw, 0.f);
 		FRotator DeltaAimRotation = UKismetMathLibrary::NormalizedDeltaRotator(CurrentAimRotation, StartingAimRotation);
 		AO_Yaw = DeltaAimRotation.Yaw;
+		TurnInPlace(DeltaTime);
 		//bUseControllerRotationYaw = false;
 	}
 	if (Speed > 0.f || bIsInAir) // running, or jumping
 	{
 		StartingAimRotation = FRotator(0.f, GetBaseAimRotation().Yaw, 0.f);
 		AO_Yaw = 0.f;
+		TurningInPlace = ETurningInPlace::ETIP_NotTurning;
 		//bUseControllerRotationYaw = true;
 	}
 	AO_Pitch = GetBaseAimRotation().Pitch;
@@ -342,7 +345,21 @@ void AGPlayerCharacter::AimOffset(float DeltaTime)
 	
 }
 	
+void AGPlayerCharacter::TurnInPlace(float DeltaTime)
+{
+
+	if (AO_Yaw > 90.f)
+	{	
+		TurningInPlace = ETurningInPlace::ETIP_Right;
+		
+	}
+
+	else if (AO_Yaw < -90.f)
+	{
+		TurningInPlace = ETurningInPlace::ETIP_Left;
+	}
 	
+}
 
 
 void AGPlayerCharacter::ServerUse_Implementation()

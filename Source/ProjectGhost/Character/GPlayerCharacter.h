@@ -128,6 +128,8 @@ private:
 	FRotator StartingAimRotation;
 
 	ETurningInPlace TurningInPlace;
+
+	void TurnInPlace(float DeltaTime);
 	
 public:
 	void SetOverlappingWeapon(AWeapon* Weapon);
@@ -143,6 +145,6 @@ public:
 
 	FORCEINLINE float GetAO_Pitch() const { return AO_Pitch; }
 
-
+	//Getter for TurningInPlace
 	FORCEINLINE ETurningInPlace GetTurningInPlace() const { return TurningInPlace; }
 };

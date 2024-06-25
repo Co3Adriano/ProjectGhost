@@ -3,9 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
+
 #include "Animation/AnimInstance.h"
 #include "ProjectGhost/DataTypes/TurningInPlace.h"
 #include "PlayerAnimInstance.generated.h"
+
 
 /**
  * 
