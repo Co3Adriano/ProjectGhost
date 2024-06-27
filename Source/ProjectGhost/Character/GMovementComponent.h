@@ -246,6 +246,7 @@ private:
 
 	bool CanDash() const;
 	void PerformDash();
+	void StopDash();
 
 	// Vault
 private:

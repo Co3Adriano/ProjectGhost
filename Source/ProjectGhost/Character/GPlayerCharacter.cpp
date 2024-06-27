@@ -18,7 +18,7 @@
 #include "Net/UnrealNetwork.h"
 #include "ProjectGhost/Combat/CombatComponent.h"
 #include "ProjectGhost/Weapon/Weapon.h"
-
+#include "PlayerAnimInstance.h"
 // Helper Macros
 #if 0
 float MacroDuration = 2.f;
@@ -487,6 +487,22 @@ AWeapon* AGPlayerCharacter::GetEquippedWeapon() const
 {
 	if (Combat == nullptr) return nullptr;
 	return Combat->EquippedWeapon;
+}
+
+void AGPlayerCharacter::PlayFireMontage(bool bAiming)
+{
+	if(Combat==nullptr|| Combat->EquippedWeapon == nullptr) return;
+
+	UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
+
+	if(AnimInstance && FireWeaponMontage)
+	{
+		AnimInstance->Montage_Play(FireWeaponMontage, 1.f);
+		FName SectionName = bAiming ? FName("RifleAim") : FName("RifleHip");
+		AnimInstance->Montage_JumpToSection(FName(SectionName), FireWeaponMontage);
+	}
+	
+	
 }
 
 

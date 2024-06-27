@@ -1106,15 +1106,42 @@ void UGMovementComponent::PerformDash()
 	// 3.Set Movement Mode
 	// 4.Play Montage
 	// 5. 
+
+	// get Direction
+	FVector MovementDirection = GPlayerCharacterOwner->GetVelocity().GetSafeNormal();
+	if(MovementDirection.IsNearlyZero())
+	{
+		MovementDirection = GPlayerCharacterOwner->GetActorForwardVector();
+	}
+		
+	// 2. Dash in Direction
+	
+	float DashSpeed = 1200.f;
+	FVector DashVelocity = MovementDirection*DashSpeed;
+
+	CharacterOwner->GetCharacterMovement()->Velocity = DashVelocity;
+	CharacterOwner->GetCharacterMovement()->SetMovementMode(MOVE_Flying);
+
+	//DEBUG
+	if (GEngine)
+	{
+		GEngine->AddOnScreenDebugMessage(-1,10.f, FColor::Yellow, FString::Printf(TEXT("Dashing in direction: %s with speed: %f"), *MovementDirection.ToString(), DashSpeed));
+	}
 	
 	DashStartTime = GetWorld()->GetTimeSeconds();
 	
-	SetMovementMode(MOVE_Flying);
+		
 	
 	CharacterOwner->PlayAnimMontage(DashMontage);
 
 	
 	DashStartDelegate.Broadcast();
+}
+
+void UGMovementComponent::StopDash()
+{
+	CharacterOwner->GetCharacterMovement()->SetMovementMode(MOVE_Walking); // Zurücksetzen auf normalen Bewegungsmodus
+	CharacterOwner->GetCharacterMovement()->Velocity = FVector::ZeroVector; // Geschwindigkeit zurücksetzen
 }
 
 #pragma endregion
@@ -1610,6 +1637,8 @@ void UGMovementComponent::DashReleased()
 {
 	GetWorld()->GetTimerManager().ClearTimer(TimerHandle_DashCooldown);
 	Safe_bWantsToDash = false;
+	StopDash();
+	
 }
 
 void UGMovementComponent::ClimbPressed()

@@ -91,7 +91,8 @@ protected:
 
 	void FireButtonPressed();
 	void FireButtonReleased();
-	
+	UPROPERTY(EditAnywhere, Category = "Combat")
+		class UAnimMontage* FireWeaponMontage;
 	
 	//CUSTOM MOVEMENT SECTION
 public:
@@ -150,6 +151,7 @@ public:
 	void AimButtonReleased();
 	bool IsAiming() const;
 	AWeapon* GetEquippedWeapon() const;
+	void PlayFireMontage(bool bAiming);
 
 	FORCEINLINE float GetAO_Yaw() const { return AO_Yaw; }
 
