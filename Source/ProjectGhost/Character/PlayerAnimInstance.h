@@ -34,6 +34,9 @@ private:
 	float Speed;
 
 	UPROPERTY(BlueprintReadOnly, Category  = "Movement", meta = (AllowPrivateAccess = "true") )
+	FVector Direction;
+
+	UPROPERTY(BlueprintReadOnly, Category  = "Movement", meta = (AllowPrivateAccess = "true") )
 	bool bIsInAir;
 
 	UPROPERTY(BlueprintReadOnly, Category  = "Movement", meta = (AllowPrivateAccess = "true") )

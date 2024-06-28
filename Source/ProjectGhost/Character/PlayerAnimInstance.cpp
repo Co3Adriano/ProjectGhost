@@ -29,9 +29,12 @@ void UPlayerAnimInstance::NativeUpdateAnimation(float DeltaTime)
 
 	if(GCharacter == nullptr) return;
 
+	
 	FVector Velocity = GCharacter->GetVelocity();
 	Velocity.Z = 0.0f;
 	Speed = Velocity.Size();
+	
+	
 	bIsInAir = GCharacter->GetCharacterMovement()->IsFalling();
 	bIsAccelerating = GCharacter->GetCharacterMovement()->GetCurrentAcceleration().Size() > 0.0f ? true : false;
 	bWeaponEquipped = GCharacter->IsWeaponEquipped();
@@ -52,7 +55,7 @@ void UPlayerAnimInstance::NativeUpdateAnimation(float DeltaTime)
 	const float Target = Delta.Yaw / DeltaTime;
 	const float Interp = FMath::FInterpTo(Lean, Target, DeltaTime, 6.0f);
 	Lean = FMath::Clamp(Interp, -90.0f, 90.0f);
-
+	
 	AO_Yaw = GCharacter->GetAO_Yaw();
 	AO_Pitch = GCharacter->GetAO_Pitch();
 	
