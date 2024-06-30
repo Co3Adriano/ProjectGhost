@@ -65,10 +65,16 @@ void UPlayerAnimInstance::NativeUpdateAnimation(float DeltaTime)
 	if (bWeaponEquipped && EquippedWeapon && EquippedWeapon->GetWeaponMesh() && GCharacter->GetMesh())
 	{
 		LeftHandTransform = EquippedWeapon->GetWeaponMesh()->GetSocketTransform(FName("LeftHandSocket"), ERelativeTransformSpace::RTS_World);
+		
+		
 		FVector OutPosition;
 		FRotator OutRotation;
 		GCharacter->GetMesh()->TransformToBoneSpace(FName("hand_r"), LeftHandTransform.GetLocation(), FRotator::ZeroRotator, OutPosition, OutRotation);
+		
 		LeftHandTransform.SetLocation(OutPosition);
 		LeftHandTransform.SetRotation(FQuat(OutRotation));
+		RightHandTransform.SetLocation(OutPosition);
+		RightHandTransform.SetRotation(FQuat(OutRotation));
+				
 	}
 }
