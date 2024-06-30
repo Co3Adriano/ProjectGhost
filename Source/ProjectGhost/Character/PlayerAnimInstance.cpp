@@ -58,6 +58,9 @@ void UPlayerAnimInstance::NativeUpdateAnimation(float DeltaTime)
 	
 	AO_Yaw = GCharacter->GetAO_Yaw();
 	AO_Pitch = GCharacter->GetAO_Pitch();
+
+	AimYaw = GCharacter ->GetAimYaw();
+	AimPitch = GCharacter->GetAimPitch();
 	
 	if (bWeaponEquipped && EquippedWeapon && EquippedWeapon->GetWeaponMesh() && GCharacter->GetMesh())
 	{

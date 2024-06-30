@@ -81,6 +81,8 @@ AGPlayerCharacter::AGPlayerCharacter(const FObjectInitializer& ObjectInitializer
 	
 	TurningInPlace = ETurningInPlace::ETIP_NotTurning;
 
+	AimYaw = 0.f;
+	AimPitch = 0.f;
 
 }
 
@@ -107,6 +109,9 @@ void AGPlayerCharacter::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	AimOffset(DeltaTime);
+
+	// Calculate Aim Offset every tick
+	CalculateAimOffset();
 }
 
 
@@ -506,4 +511,18 @@ void AGPlayerCharacter::PlayFireMontage(bool bAiming)
 }
 
 
+//  AIM OFF SET HEAD SECTION
 
+void AGPlayerCharacter::CalculateAimOffset()
+{
+    if (APlayerController* PlayerController = Cast<APlayerController>(GetController()))
+    {
+        FRotator ControlRotation = PlayerController->GetControlRotation();
+        FRotator ActorRotation = GetActorRotation();
+
+        // Calculate Yaw and Pitch
+        AimYaw = FMath::ClampAngle(ControlRotation.Yaw - ActorRotation.Yaw, -180.0f, 180.0f);
+        AimPitch = FMath::ClampAngle(ControlRotation.Pitch, -90.0f, 90.0f);
+    	
+    }
+}

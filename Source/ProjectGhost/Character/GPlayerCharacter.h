@@ -136,6 +136,10 @@ private:
 	float Interp_AO_Yaw;
 	float AO_Pitch;
 
+	float AimYaw;
+	float AimPitch;
+	
+
 	FRotator StartingAimRotation;
 
 	ETurningInPlace TurningInPlace;
@@ -152,11 +156,19 @@ public:
 	bool IsAiming() const;
 	AWeapon* GetEquippedWeapon() const;
 	void PlayFireMontage(bool bAiming);
+	void CalculateAimOffset();
 
 	FORCEINLINE float GetAO_Yaw() const { return AO_Yaw; }
 
 	FORCEINLINE float GetAO_Pitch() const { return AO_Pitch; }
 
+	
+	FORCEINLINE float GetAimYaw() const { return AimYaw; }
+
+	FORCEINLINE float GetAimPitch() const { return AimPitch; }
+
+
+	
 	//Getter for TurningInPlace
 	FORCEINLINE ETurningInPlace GetTurningInPlace() const { return TurningInPlace; }
 };
