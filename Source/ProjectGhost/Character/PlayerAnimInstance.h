@@ -81,9 +81,8 @@ private:
 	
 	UPROPERTY(BlueprintReadOnly, Category  = "Movement", meta = (AllowPrivateAccess = "true") )
 	FTransform LeftHandTransform;
-	UPROPERTY(BlueprintReadOnly, Category  = "Movement", meta = (AllowPrivateAccess = "true") )
-	FTransform RightHandTransform;
 
+	
 	UPROPERTY(BlueprintReadOnly, Category  = "Movement", meta = (AllowPrivateAccess = "true") )
 	ETurningInPlace TurningInPlace;
 };

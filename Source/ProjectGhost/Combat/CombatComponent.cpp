@@ -55,13 +55,16 @@ void UCombatComponent::EquipWeapon(AWeapon* WeaponToEquip)
 
 	EquippedWeapon = WeaponToEquip;
 	EquippedWeapon->SetWeaponState(EWeaponState::EWS_Equipped);
-	const USkeletalMeshSocket* LeftHandSocket =  Character->GetMesh()->GetSocketByName(FName("RightHandSocket"));
+
+	//Attach Weapon to Skeletal Mesh->RightHandSocket
+	const USkeletalMeshSocket* RightHandSocket =  Character->GetMesh()->GetSocketByName(FName("RightHandSocket"));
 	
 	
-	if (LeftHandSocket)
+	if (RightHandSocket)
 	{
-		LeftHandSocket->AttachActor(EquippedWeapon,Character->GetMesh());
+		RightHandSocket->AttachActor(EquippedWeapon,Character->GetMesh());
 		
+	//DEBUG
 		if (Character == nullptr) UE_LOG(LogTemp, Warning, TEXT("Character is null"));
 		if (WeaponToEquip == nullptr) UE_LOG(LogTemp, Warning, TEXT("WeaponToEquip is null"));
 	}
