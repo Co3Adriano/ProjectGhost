@@ -52,12 +52,15 @@ AGPlayerCharacter::AGPlayerCharacter(const FObjectInitializer& ObjectInitializer
 	GetCharacterMovement()->bOrientRotationToMovement = true;
 	GetCharacterMovement()->RotationRate = FRotator(0.0f, 500.0f, 0.0f);
 
+	
 	GetCharacterMovement()->JumpZVelocity = 700.f;
 	GetCharacterMovement()->AirControl = 0.35f;
 	GetCharacterMovement()->MaxWalkSpeed = 500.f;
 	GetCharacterMovement()->MinAnalogWalkSpeed = 20.f;
 	GetCharacterMovement()->BrakingDecelerationWalking = 2000.f;
-	
+
+
+	//Camera Section
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));	
 	CameraBoom->SetupAttachment(GetMesh());
 	CameraBoom->TargetArmLength=400.0f;
@@ -66,6 +69,16 @@ AGPlayerCharacter::AGPlayerCharacter(const FObjectInitializer& ObjectInitializer
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
 	FollowCamera->bUsePawnControlRotation = false;
 
+	// FirstPerson Camera Section
+	// (X=5.000000,Y=10.000000,Z=-2.000000)
+	FPCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
+	FPCamera->SetupAttachment(GetMesh(), "head");
+	FPCamera->bUsePawnControlRotation = false;
+	FPCamera->FieldOfView = 90.f;
+	
+
+		
+	
 	// Orient rotation to movement 
 	bUseControllerRotationYaw = true;
 	GetCharacterMovement()->bOrientRotationToMovement = false;
@@ -81,8 +94,8 @@ AGPlayerCharacter::AGPlayerCharacter(const FObjectInitializer& ObjectInitializer
 	
 	TurningInPlace = ETurningInPlace::ETIP_NotTurning;
 
-	AimYaw = 0.f;
-	AimPitch = 0.f;
+	FPCameraYaw = 0.f;
+	FPCameraPitch = 0.f;
 
 }
 
@@ -111,7 +124,7 @@ void AGPlayerCharacter::Tick(float DeltaTime)
 	AimOffset(DeltaTime);
 
 	// Calculate Aim Offset every tick
-	CalculateAimOffset();
+	CalculateFPCameraOrientation();
 }
 
 
@@ -512,17 +525,28 @@ void AGPlayerCharacter::PlayFireMontage(bool bAiming)
 
 
 //  AIM OFF SET HEAD SECTION
+// Camera PITCH AND YAW  =!= Weapon Orientation 
 
-void AGPlayerCharacter::CalculateAimOffset()
+void AGPlayerCharacter::CalculateFPCameraOrientation()
 {
-    if (APlayerController* PlayerController = Cast<APlayerController>(GetController()))
-    {
-        FRotator ControlRotation = PlayerController->GetControlRotation();
-        FRotator ActorRotation = GetActorRotation();
+	if (APlayerController* PlayerController = Cast<APlayerController>(GetController()))
+	{
+		// Get the Player Camera Manager
+		APlayerCameraManager* CameraManager = PlayerController->PlayerCameraManager;
+		if (CameraManager)
+		{
+			// Get Camera Rotation
+			FRotator CameraRotation = CameraManager->GetCameraRotation();
+            
+			// Get Yaw and Pitch from Camera Rotation
+			FPCameraYaw = CameraRotation.Yaw;
+			FPCameraPitch = CameraRotation.Pitch;
 
-        // Calculate Yaw and Pitch
-        AimYaw = FMath::ClampAngle(ControlRotation.Yaw - ActorRotation.Yaw, -180.0f, 180.0f);
-        AimPitch = FMath::ClampAngle(ControlRotation.Pitch, -90.0f, 90.0f);
+			// Log values to check if they are correct
+			UE_LOG(LogTemp, Warning, TEXT("Camera Yaw: %f, Camera Pitch: %f"), FPCameraYaw, FPCameraPitch);
+
     	
-    }
+		}
+	}
 }
+

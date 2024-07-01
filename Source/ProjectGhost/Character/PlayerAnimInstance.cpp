@@ -4,6 +4,8 @@
 #include "PlayerAnimInstance.h"
 
 #include "GPlayerCharacter.h"
+#include "KismetAnimationLibrary.h"
+
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "ProjectGhost/Weapon/Weapon.h"
@@ -43,11 +45,18 @@ void UPlayerAnimInstance::NativeUpdateAnimation(float DeltaTime)
 	bIsAiming = GCharacter->IsAiming();
 	TurningInPlace = GCharacter->GetTurningInPlace();
 
+	
 	FRotator AimRotation = GCharacter->GetBaseAimRotation();
 	FRotator MovementRotation = UKismetMathLibrary::MakeRotFromX(GCharacter->GetVelocity());
 	FRotator DeltaRot = UKismetMathLibrary::NormalizedDeltaRotator(MovementRotation, AimRotation);
 	DeltaRotation = FMath::RInterpTo(DeltaRotation, DeltaRot, DeltaTime, 6.f);
 	YawOffset = DeltaRotation.Yaw;
+
+	// Direction
+	FRotator BaseRotation = GCharacter->GetActorRotation();
+	Direction = UKismetAnimationLibrary::CalculateDirection(Velocity, BaseRotation);
+	
+	
 	
 	CharacterRotationLastFrame = CharacterRotation;
 	CharacterRotation = GCharacter->GetActorRotation();
@@ -59,8 +68,9 @@ void UPlayerAnimInstance::NativeUpdateAnimation(float DeltaTime)
 	AO_Yaw = GCharacter->GetAO_Yaw();
 	AO_Pitch = GCharacter->GetAO_Pitch();
 
-	AimYaw = GCharacter ->GetAimYaw();
-	AimPitch = GCharacter->GetAimPitch();
+	FPCameraYaw = GCharacter ->GetFPCameraYaw();
+	FPCameraPitch = GCharacter->GetFPCameraPitch();
+
 	
 	if (bWeaponEquipped && EquippedWeapon && EquippedWeapon->GetWeaponMesh() && GCharacter->GetMesh())
 	{

@@ -111,6 +111,9 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class UCameraComponent* FollowCamera;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+	class UCameraComponent* FPCamera;
+
 	UFUNCTION(BlueprintPure)
 	FORCEINLINE UGMovementComponent* GetGPlayerCharacterMovement() const { return GMovementComponent; }
 
@@ -136,8 +139,8 @@ private:
 	float Interp_AO_Yaw;
 	float AO_Pitch;
 
-	float AimYaw;
-	float AimPitch;
+	float FPCameraYaw;
+	float FPCameraPitch;
 	
 
 	FRotator StartingAimRotation;
@@ -156,16 +159,16 @@ public:
 	bool IsAiming() const;
 	AWeapon* GetEquippedWeapon() const;
 	void PlayFireMontage(bool bAiming);
-	void CalculateAimOffset();
+	void CalculateFPCameraOrientation();
 
 	FORCEINLINE float GetAO_Yaw() const { return AO_Yaw; }
 
 	FORCEINLINE float GetAO_Pitch() const { return AO_Pitch; }
 
 	
-	FORCEINLINE float GetAimYaw() const { return AimYaw; }
+	FORCEINLINE float GetFPCameraYaw() const { return FPCameraYaw; }
 
-	FORCEINLINE float GetAimPitch() const { return AimPitch; }
+	FORCEINLINE float GetFPCameraPitch() const { return FPCameraPitch; }
 
 
 	

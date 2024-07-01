@@ -34,7 +34,7 @@ private:
 	float Speed;
 
 	UPROPERTY(BlueprintReadOnly, Category  = "Movement", meta = (AllowPrivateAccess = "true") )
-	FVector Direction;
+	float Direction;
 
 	UPROPERTY(BlueprintReadOnly, Category  = "Movement", meta = (AllowPrivateAccess = "true") )
 	bool bIsInAir;
@@ -74,10 +74,13 @@ private:
 	UPROPERTY(BlueprintReadOnly, Category  = "Movement", meta = (AllowPrivateAccess = "true") )
 	float AO_Pitch;
 
+	//Camera Pitch and Yaw
 	UPROPERTY(BlueprintReadOnly, Category  = "Movement", meta = (AllowPrivateAccess = "true") )
-	float AimYaw;
+	float FPCameraYaw;
+
 	UPROPERTY(BlueprintReadOnly, Category  = "Movement", meta = (AllowPrivateAccess = "true") )
-	float AimPitch;
+	float FPCameraPitch;
+
 	
 	UPROPERTY(BlueprintReadOnly, Category  = "Movement", meta = (AllowPrivateAccess = "true") )
 	FTransform LeftHandTransform;
