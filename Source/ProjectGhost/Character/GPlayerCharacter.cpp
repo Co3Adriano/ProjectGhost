@@ -72,7 +72,7 @@ AGPlayerCharacter::AGPlayerCharacter(const FObjectInitializer& ObjectInitializer
 	// FirstPerson Camera Section
 	// (X=5.000000,Y=10.000000,Z=-2.000000)
 	FPCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
-	FPCamera->SetupAttachment(GetMesh(), "head");
+	FPCamera->SetupAttachment(GetMesh(), "spine_01");
 	FPCamera->bUsePawnControlRotation = false;
 	FPCamera->FieldOfView = 90.f;
 	
@@ -123,7 +123,7 @@ void AGPlayerCharacter::Tick(float DeltaTime)
 
 	AimOffset(DeltaTime);
 
-	// Calculate Aim Offset every tick
+	// Calculate Aim Offset every tick toDo DeltaTime as Argument
 	CalculateFPCameraOrientation();
 }
 
@@ -543,7 +543,7 @@ void AGPlayerCharacter::CalculateFPCameraOrientation()
 			FPCameraPitch = CameraRotation.Pitch;
 
 			// Log values to check if they are correct
-			UE_LOG(LogTemp, Warning, TEXT("Camera Yaw: %f, Camera Pitch: %f"), FPCameraYaw, FPCameraPitch);
+			//UE_LOG(LogTemp, Warning, TEXT("Camera Yaw: %f, Camera Pitch: %f"), FPCameraYaw, FPCameraPitch);
 
     	
 		}
