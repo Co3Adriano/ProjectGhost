@@ -69,10 +69,11 @@ AGPlayerCharacter::AGPlayerCharacter(const FObjectInitializer& ObjectInitializer
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
 	FollowCamera->bUsePawnControlRotation = false;
 
-	// FirstPerson Camera Section
-	// (X=5.000000,Y=10.000000,Z=-2.000000)
+
+	
 	FPCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
-	FPCamera->SetupAttachment(GetMesh(), "spine_01");
+	FPCamera->SetupAttachment(GetMesh(), "head");
+	
 	FPCamera->bUsePawnControlRotation = false;
 	FPCamera->FieldOfView = 90.f;
 	
