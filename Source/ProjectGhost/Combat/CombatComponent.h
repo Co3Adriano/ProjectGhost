@@ -6,6 +6,7 @@
 #include "Components/ActorComponent.h"
 #include "CombatComponent.generated.h"
 
+#define TRACE_LENGTH 80000.0f
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class PROJECTGHOST_API UCombatComponent : public UActorComponent
@@ -21,6 +22,8 @@ public:
 	void EquipWeapon(class AWeapon* WeaponToEquip);
 
 
+	void TraceUnderCrosshairs(FHitResult& TraceHitResult);
+
 protected:
 	virtual void BeginPlay() override;
 	
@@ -35,7 +38,13 @@ protected:
 
 	void FireButtonPressed(bool bPressed);
 
+	UFUNCTION(NetMulticast, Reliable)
+	void MulticastFire();
+
 	bool bFireButtonPressed;
+
+
+	
 	
 
 private:
@@ -53,5 +62,6 @@ private:
 	UPROPERTY(EditAnywhere)
 	float AimWalkSpeed;
 
-	
+	UFUNCTION(Server,Reliable)
+	void ServerFire();
 };

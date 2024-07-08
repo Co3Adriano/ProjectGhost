@@ -8,14 +8,15 @@
 #include "ProjectGhost/Character/GPlayerCharacter.h"
 #include "ProjectGhost/Weapon/Weapon.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Kismet/GameplayStatics.h"
+#include "DrawDebugHelpers.h"
 
 UCombatComponent::UCombatComponent()
 {
 	
 	
 	
-	PrimaryComponentTick.bCanEverTick = false;
-
+	PrimaryComponentTick.bCanEverTick = true;
 	BaseWalkSpeed = 400.f;
 	AimWalkSpeed = 250.f;
 	
@@ -32,6 +33,8 @@ void UCombatComponent::BeginPlay()
 void UCombatComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+	FHitResult HitResult;
+	TraceUnderCrosshairs(HitResult);
 }
 
 void UCombatComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -111,14 +114,86 @@ void UCombatComponent::SetAiming(bool bIsAiming)
 void UCombatComponent::FireButtonPressed(bool bPressed)
 {
 	bFireButtonPressed = bPressed;
-	if(EquippedWeapon == nullptr) return;
-	if(Character&&bFireButtonPressed)
+	if(bFireButtonPressed)
 	{
-		Character->PlayFireMontage(bAiming);
-		EquippedWeapon->Fire();
+	ServerFire();
+		
+	}
+	
+}
+
+void UCombatComponent::TraceUnderCrosshairs(FHitResult& TraceHitResult)
+{
+	FVector2D ViewportSize;
+	
+	if (GEngine && GEngine->GameViewport)
+	{
+		//Get the size of the viewport
+		
+		GEngine -> GameViewport -> GetViewportSize(ViewportSize);
+	}
+	
+		
+	
+		
+	
+	FVector2D CrosshairLocation(ViewportSize.X / 2.f, ViewportSize.Y / 2.f);
+	FVector CrosshairWorldPosition;
+	FVector CrosshairWorldDirection;
+	bool bScreenToWorld =
+		UGameplayStatics::DeprojectScreenToWorld(
+				UGameplayStatics::GetPlayerController(this, 0),
+				CrosshairLocation,
+				CrosshairWorldPosition,
+				CrosshairWorldDirection
+			);
+	
+	if (bScreenToWorld)
+	{
+		FVector Start = CrosshairWorldPosition;
+		FVector End = Start + CrosshairWorldDirection*TRACE_LENGTH;
+		
+		GetWorld()->LineTraceSingleByChannel(
+			TraceHitResult,
+			Start,
+			End,
+			ECC_Visibility);
+		if(!TraceHitResult.bBlockingHit)
+		{
+			TraceHitResult.ImpactPoint = End;
+		}
+		else
+		{
+			DrawDebugSphere(
+				GetWorld(),
+				TraceHitResult.ImpactPoint,
+				12.f,
+				12,
+				FColor::Red,
+				false,
+				0.f);
+		}
 	}
 }
 
+void UCombatComponent::MulticastFire_Implementation()
+{
+	if(EquippedWeapon == nullptr) return;
+	if(Character)
+	{
+		Character->PlayFireMontage(bAiming);
+		EquippedWeapon->Fire();
+	}	
+}
+	
+
+
+
+void UCombatComponent::ServerFire_Implementation()
+{
+	MulticastFire();
+	
+}	
 void UCombatComponent::ServerSetAiming_Implementation(bool bIsAiming)
 {
 	bAiming = bIsAiming;
