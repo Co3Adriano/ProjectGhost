@@ -77,6 +77,8 @@ private:
 	UPROPERTY(EditAnywhere,Category = "Weapon")
 	class UAnimationAsset* FireAnimation;
 
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<class ACasing> CasingClass;
 	
 public:
 
