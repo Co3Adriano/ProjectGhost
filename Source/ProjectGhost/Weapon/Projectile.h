@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+
 #include "Projectile.generated.h"
 
 UCLASS()
@@ -19,10 +20,23 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-
+	
 private:
 	UPROPERTY(EditAnywhere)
 	class UBoxComponent* CollisionBox;
+
+	UPROPERTY(EditAnywhere)
+	class UParticleSystem* BulletTracer;
+
+	UPROPERTY(VisibleAnywhere)
+	class UParticleSystemComponent* TracerComponent;
+
+	UPROPERTY(VisibleAnywhere)
+	class UProjectileMovementComponent* ProjectileMovementComponent;
+	
+
+
+	
 public:	
 	
 

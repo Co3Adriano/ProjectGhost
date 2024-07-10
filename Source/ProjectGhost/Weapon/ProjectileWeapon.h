@@ -13,5 +13,12 @@ UCLASS()
 class PROJECTGHOST_API AProjectileWeapon : public AWeapon
 {
 	GENERATED_BODY()
-	
+
+
+
+public:
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<class AProjectile> ProjectileClass;
+
+	virtual void Fire(const FVector& HitTarget) override;
 };

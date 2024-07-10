@@ -22,7 +22,7 @@ public:
 	void EquipWeapon(class AWeapon* WeaponToEquip);
 
 
-	void TraceUnderCrosshairs(FHitResult& TraceHitResult);
+	void TraceUnderCrosshair(FHitResult& TraceHitResult);
 
 protected:
 	virtual void BeginPlay() override;
@@ -38,8 +38,12 @@ protected:
 
 	void FireButtonPressed(bool bPressed);
 
+	UFUNCTION(Server,Reliable)
+	void ServerFire(const FVector_NetQuantize TraceHitTarget);
+	
 	UFUNCTION(NetMulticast, Reliable)
-	void MulticastFire();
+	void MulticastFire(const FVector_NetQuantize TraceHitTarget);
+	
 
 	bool bFireButtonPressed;
 
@@ -62,6 +66,7 @@ private:
 	UPROPERTY(EditAnywhere)
 	float AimWalkSpeed;
 
-	UFUNCTION(Server,Reliable)
-	void ServerFire();
+	
+	
+	
 };
