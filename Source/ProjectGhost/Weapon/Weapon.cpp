@@ -156,23 +156,24 @@ void AWeapon::Fire(const FVector& HitTarget)
 	
 	if (CasingClass)
 	{
-		const USkeletalMeshSocket* AmmoEjectSocket = WeaponMesh->GetSocketByName(FName("AmmoEject)"));
+		const USkeletalMeshSocket* AmmoEjectSocket = GetWeaponMesh()->GetSocketByName(FName("AmmoEject"));
 		
-		
+		GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Red, "Socket found " );
 		if(AmmoEjectSocket)
 		{
 			FTransform SocketTransform = AmmoEjectSocket->GetSocketTransform(WeaponMesh);
-			
-			
-			
-			UWorld* World = GetWorld();
-			if (World)
+
+			GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Red, "Transform Location: " + SocketTransform.GetLocation().ToString());
+
+			if (UWorld* World = GetWorld())
 			{
+				//Spawn casing with Impulse in X Direction
 				World->SpawnActor<ACasing>(CasingClass,
 					SocketTransform.GetLocation(),
 					SocketTransform.GetRotation().Rotator()
 					);
-					
+				
+					GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Red, "Casing Spawned");
 			}
 		}
 	}
