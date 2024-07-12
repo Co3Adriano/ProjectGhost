@@ -14,16 +14,28 @@ class PROJECTGHOST_API ACasing : public AActor
 public:	
 	// Sets default values for this actor's properties
 	ACasing();
-	
+	int32 CasingCount = 0;
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	UFUNCTION()
+	void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 
 private:
 	UPROPERTY(VisibleAnywhere)
 	UStaticMeshComponent* CasingMesh;
-public:	
-	
 
+	UPROPERTY(EditAnywhere)
+	float CasingImpulse;
+
+	UPROPERTY(EditAnywhere)
+	class USoundCue* CasingSound;
+
+	
+	
+	UPROPERTY(EditAnywhere)
+	int32 MaxCasingCount  = 50;
+
+	
 };

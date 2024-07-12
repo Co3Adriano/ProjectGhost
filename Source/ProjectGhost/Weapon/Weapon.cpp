@@ -158,12 +158,12 @@ void AWeapon::Fire(const FVector& HitTarget)
 	{
 		const USkeletalMeshSocket* AmmoEjectSocket = GetWeaponMesh()->GetSocketByName(FName("AmmoEject"));
 		
-		GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Red, "Socket found " );
+		//GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Red, "Socket found " );
 		if(AmmoEjectSocket)
 		{
 			FTransform SocketTransform = AmmoEjectSocket->GetSocketTransform(WeaponMesh);
 
-			GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Red, "Transform Location: " + SocketTransform.GetLocation().ToString());
+			//GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Red, "Transform Location: " + SocketTransform.GetLocation().ToString());
 
 			if (UWorld* World = GetWorld())
 			{
@@ -173,7 +173,7 @@ void AWeapon::Fire(const FVector& HitTarget)
 					SocketTransform.GetRotation().Rotator()
 					);
 				
-					GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Red, "Casing Spawned");
+					//GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Red, "Casing Spawned");
 			}
 		}
 	}
