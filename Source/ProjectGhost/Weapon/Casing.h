@@ -6,6 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "Casing.generated.h"
 
+
 UCLASS()
 class PROJECTGHOST_API ACasing : public AActor
 {
@@ -14,14 +15,14 @@ class PROJECTGHOST_API ACasing : public AActor
 public:	
 	// Sets default values for this actor's properties
 	ACasing();
-	int32 CasingCount = 0;
+	
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-	UFUNCTION()
-	void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+	void EndPlay(EEndPlayReason::Type EndPlayReason);
 
+	
 private:
 	UPROPERTY(VisibleAnywhere)
 	UStaticMeshComponent* CasingMesh;
@@ -32,10 +33,17 @@ private:
 	UPROPERTY(EditAnywhere)
 	class USoundCue* CasingSound;
 
-	
+	static int32 CasingCount;
+	static TQueue<ACasing*> CasingQueue;
+	bool bSoundPlayed;
+	UFUNCTION()
+	void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+
+	void CheckBulletCasingCount();
 	
 	UPROPERTY(EditAnywhere)
 	int32 MaxCasingCount  = 50;
 
 	
+	int32 RandomInt = FMath::RandRange(1, 5);
 };

@@ -61,7 +61,7 @@ AGPlayerCharacter::AGPlayerCharacter(const FObjectInitializer& ObjectInitializer
 
 
 	//Camera Section
-	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));	
+	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
 	CameraBoom->SetupAttachment(GetMesh());
 	CameraBoom->TargetArmLength=400.0f;
 	CameraBoom->bUsePawnControlRotation = true;
