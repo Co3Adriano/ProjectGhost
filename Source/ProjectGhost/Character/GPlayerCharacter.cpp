@@ -61,6 +61,7 @@ AGPlayerCharacter::AGPlayerCharacter(const FObjectInitializer& ObjectInitializer
 
 
 	//Camera Section
+	//Third Person Camera (Only for Debug)
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
 	CameraBoom->SetupAttachment(GetMesh());
 	CameraBoom->TargetArmLength=400.0f;
@@ -70,10 +71,13 @@ AGPlayerCharacter::AGPlayerCharacter(const FObjectInitializer& ObjectInitializer
 	FollowCamera->bUsePawnControlRotation = false;
 
 
+	//First Person Camera
+	FPCameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("FPCameraBoom"));
 	
+	FPCameraBoom->TargetArmLength = 5.0f;
+	FPCameraBoom->bUsePawnControlRotation = true;
 	FPCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
-	FPCamera->SetupAttachment(GetMesh(), "head");
-	
+	FPCamera->SetupAttachment(FPCameraBoom, USpringArmComponent::SocketName);
 	FPCamera->bUsePawnControlRotation = false;
 	FPCamera->FieldOfView = 90.f;
 	

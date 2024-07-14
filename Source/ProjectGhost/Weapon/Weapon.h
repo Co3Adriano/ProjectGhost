@@ -79,6 +79,10 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<class ACasing> CasingClass;
+
+
+
+	//TEXTURES FOR CROSSHAIR
 	
 public:
 

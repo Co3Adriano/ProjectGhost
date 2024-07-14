@@ -38,8 +38,6 @@ void ACasing::BeginPlay()
 	
 	CheckBulletCasingCount();
 	
-	
-	
 }
 
 void ACasing::EndPlay(const EEndPlayReason::Type EndPlayReason)
