@@ -75,6 +75,7 @@ AGPlayerCharacter::AGPlayerCharacter(const FObjectInitializer& ObjectInitializer
 	FPCameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("FPCameraBoom"));
 	
 	FPCameraBoom->TargetArmLength = 5.0f;
+	FPCameraBoom->SetupAttachment(GetMesh(),  "head");
 	FPCameraBoom->bUsePawnControlRotation = true;
 	FPCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 	FPCamera->SetupAttachment(FPCameraBoom, USpringArmComponent::SocketName);
@@ -343,26 +344,27 @@ void AGPlayerCharacter::Use()
 void AGPlayerCharacter::AimOffset(float DeltaTime)
 {
 	if (Combat && Combat->EquippedWeapon == nullptr) return;
+
 	FVector Velocity = GetVelocity();
 	Velocity.Z = 0.0f;
 	float Speed = Velocity.Size();
 	bool bIsInAir = GetCharacterMovement()->IsFalling();
 
-	if (Speed == 0.f && !bIsInAir) // standing or crouching
+	// Turn in Place Not Working Correctly
+	
+	/*if (Speed == 0.f && !bIsInAir) // standing or crouching
 	{
 		FRotator CurrentAimRotation = FRotator(0.f, GetBaseAimRotation().Yaw, 0.f);
 		FRotator DeltaAimRotation = UKismetMathLibrary::NormalizedDeltaRotator(CurrentAimRotation, StartingAimRotation);
-
-		
 
 		AO_Yaw = DeltaAimRotation.Yaw;
 		if(TurningInPlace == ETurningInPlace::ETIP_NotTurning)
 		{
 			Interp_AO_Yaw = AO_Yaw;
+			
 		}
 		TurnInPlace(DeltaTime);
-		
-	}
+	}*/
 	if (Speed > 0.f || bIsInAir) // running, or jumping
 	{
 		StartingAimRotation = FRotator(0.f, GetBaseAimRotation().Yaw, 0.f);
@@ -380,7 +382,6 @@ void AGPlayerCharacter::AimOffset(float DeltaTime)
 		AO_Pitch = FMath::GetMappedRangeValueClamped(InRange, OutRange, AO_Pitch);
 	
 	}
-
 
 
 
