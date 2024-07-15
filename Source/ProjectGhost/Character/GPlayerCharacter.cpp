@@ -351,7 +351,6 @@ void AGPlayerCharacter::AimOffset(float DeltaTime)
 	bool bIsInAir = GetCharacterMovement()->IsFalling();
 
 	// Turn in Place Not Working Correctly
-	
 	/*if (Speed == 0.f && !bIsInAir) // standing or crouching
 	{
 		FRotator CurrentAimRotation = FRotator(0.f, GetBaseAimRotation().Yaw, 0.f);
@@ -363,8 +362,13 @@ void AGPlayerCharacter::AimOffset(float DeltaTime)
 			Interp_AO_Yaw = AO_Yaw;
 			
 		}
-		TurnInPlace(DeltaTime);
+		
 	}*/
+	if(Speed == 0.f && !bIsInAir) // standing or crouching
+	{
+		TurnInPlace(DeltaTime);
+	}
+	
 	if (Speed > 0.f || bIsInAir) // running, or jumping
 	{
 		StartingAimRotation = FRotator(0.f, GetBaseAimRotation().Yaw, 0.f);
