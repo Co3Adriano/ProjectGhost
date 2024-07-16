@@ -112,12 +112,12 @@ public:
 	class UCameraComponent* FollowCamera;
 
 
-	/*FPCamera Section*/
+	/*FPSCamera Section*/
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-	class USpringArmComponent* FPCameraBoom;
+	class USpringArmComponent* FPSCameraBoom;
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-	class UCameraComponent* FPCamera;
+	class UCameraComponent* FPSCamera;
 
 	UFUNCTION(BlueprintPure)
 	FORCEINLINE UGMovementComponent* GetGPlayerCharacterMovement() const { return GMovementComponent; }

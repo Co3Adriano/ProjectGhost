@@ -69,19 +69,20 @@ AGPlayerCharacter::AGPlayerCharacter(const FObjectInitializer& ObjectInitializer
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
 	FollowCamera->bUsePawnControlRotation = false;
+	FollowCamera->SetActive(false);
 
 
 	//First Person Camera
-	FPCameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("FPCameraBoom"));
+	FPSCameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("FPSCameraBoom"));
 	
-	FPCameraBoom->TargetArmLength = 5.0f;
-	FPCameraBoom->SetupAttachment(GetMesh(),  "head");
-	FPCameraBoom->bUsePawnControlRotation = true;
-	FPCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
-	FPCamera->SetupAttachment(FPCameraBoom, USpringArmComponent::SocketName);
-	FPCamera->bUsePawnControlRotation = false;
-	FPCamera->FieldOfView = 90.f;
-	
+	FPSCameraBoom->TargetArmLength = 5.0f;
+	FPSCameraBoom->SetupAttachment(GetMesh(),  "head");
+	FPSCameraBoom->bUsePawnControlRotation = true;
+	FPSCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FPSCamera"));
+	FPSCamera->SetupAttachment(FPSCameraBoom, USpringArmComponent::SocketName);
+	FPSCamera->bUsePawnControlRotation = false;
+	FPSCamera->FieldOfView = 90.f;
+	FPSCamera->SetActive(false);
 
 		
 	
