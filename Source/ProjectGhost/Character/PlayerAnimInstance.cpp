@@ -70,7 +70,7 @@ void UPlayerAnimInstance::NativeUpdateAnimation(float DeltaTime)
 
 	FPCameraYaw = GCharacter ->GetFPCameraYaw();
 	FPCameraPitch = GCharacter->GetFPCameraPitch();
-
+	LeaningAmount = GCharacter->GetLeaningAmount();
 	
 	if (bWeaponEquipped && EquippedWeapon && EquippedWeapon->GetWeaponMesh() && GCharacter->GetMesh())
 	{

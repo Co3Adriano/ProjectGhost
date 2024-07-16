@@ -14,7 +14,7 @@
 #include "InputActionValue.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/WidgetComponent.h"
-#include "Kismet/KismetMathLibrary.h"
+
 #include "Net/UnrealNetwork.h"
 #include "ProjectGhost/Combat/CombatComponent.h"
 #include "ProjectGhost/Weapon/Weapon.h"
@@ -181,7 +181,12 @@ void AGPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 		EnhancedInputComponent->BindAction(FireAction, ETriggerEvent::Started, this, &AGPlayerCharacter::FireButtonPressed);
 		EnhancedInputComponent->BindAction(FireAction, ETriggerEvent::Completed, this, &AGPlayerCharacter::FireButtonReleased);
 	
-	
+
+		//Leaning Function
+		EnhancedInputComponent->BindAction(LeanLeftAction, ETriggerEvent::Started, this, &AGPlayerCharacter::StartLeaningLeft);
+		EnhancedInputComponent->BindAction(LeanLeftAction, ETriggerEvent::Completed, this, &AGPlayerCharacter::StopLeaningLeft);
+		EnhancedInputComponent->BindAction(LeanRightAction, ETriggerEvent::Started, this, &AGPlayerCharacter::StartLeaningRight);
+		EnhancedInputComponent->BindAction(LeanRightAction, ETriggerEvent::Completed, this, &AGPlayerCharacter::StopLeaningRight);
 	}
 
 }
@@ -534,6 +539,29 @@ void AGPlayerCharacter::PlayFireMontage(bool bAiming)
 	
 }
 
+
+// LEANING AMOUNT VALUES
+
+
+void AGPlayerCharacter::StartLeaningLeft()
+{
+	LeaningAmount = -1.0f;
+}
+
+void AGPlayerCharacter::StopLeaningLeft()
+{
+	LeaningAmount = 0.0f;
+}
+
+void AGPlayerCharacter::StartLeaningRight()
+{
+	LeaningAmount = 1.0f;
+}
+
+void AGPlayerCharacter::StopLeaningRight()
+{
+	LeaningAmount = 0.0f;
+}
 
 //  AIM OFF SET HEAD SECTION
 // Camera PITCH AND YAW  =!= Weapon Orientation 

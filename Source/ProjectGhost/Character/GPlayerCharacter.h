@@ -61,6 +61,13 @@ public:
 	UGMovementComponent* GMovementComponent;
 
 
+	// Leaning Action
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
+	UInputAction* LeanLeftAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
+	UInputAction* LeanRightAction;
+
 public:
 		
 	AGPlayerCharacter(const FObjectInitializer& ObjectInitializer);
@@ -164,12 +171,19 @@ public:
 	bool IsAiming() const;
 	AWeapon* GetEquippedWeapon() const;
 	void PlayFireMontage(bool bAiming);
+	void StartLeaningLeft();
+	void StopLeaningLeft();
+	void StartLeaningRight();
+	void StopLeaningRight();
 	void CalculateFPCameraOrientation();
 
+	float LeaningAmount;
+	
 	FORCEINLINE float GetAO_Yaw() const { return AO_Yaw; }
 
 	FORCEINLINE float GetAO_Pitch() const { return AO_Pitch; }
 
+	FORCEINLINE float GetLeaningAmount() const { return LeaningAmount; }
 	
 	FORCEINLINE float GetFPCameraYaw() const { return FPCameraYaw; }
 
