@@ -76,7 +76,7 @@ AGPlayerCharacter::AGPlayerCharacter(const FObjectInitializer& ObjectInitializer
 	FPSCameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("FPSCameraBoom"));
 	
 	FPSCameraBoom->TargetArmLength = 5.0f;
-	FPSCameraBoom->SetupAttachment(GetMesh(),  "head");
+	FPSCameraBoom->SetupAttachment(GetMesh(),  "neck_02");
 	FPSCameraBoom->bUsePawnControlRotation = true;
 	FPSCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FPSCamera"));
 	FPSCamera->SetupAttachment(FPSCameraBoom, USpringArmComponent::SocketName);
