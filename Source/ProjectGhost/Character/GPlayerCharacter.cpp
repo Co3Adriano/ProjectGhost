@@ -579,7 +579,7 @@ void AGPlayerCharacter::CalculateFPCameraOrientation()
 			
 			// Get Yaw and Pitch from Camera Rotation
 			FPCameraYaw = CameraRotation.Yaw;
-			//FPCameraPitchClamped = FMath::GetMappedRangeValueClamped(InRange, OutRange, FPCameraPitch);
+			// Pitch value as Client gets transformed for lower bandwidth Server Pitch =! Client Pitch
 			FPCameraPitch = CameraRotation.Pitch;
 
 						
