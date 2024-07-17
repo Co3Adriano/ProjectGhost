@@ -176,7 +176,7 @@ public:
 	void StartLeaningRight();
 	void StopLeaningRight();
 	void CalculateFPCameraOrientation();
-
+	
 	UPROPERTY(Replicated)
 	int8 LeaningAmount;
 	
