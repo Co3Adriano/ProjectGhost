@@ -542,7 +542,7 @@ void AGPlayerCharacter::PlayFireMontage(bool bAiming)
 
 // LEANING AMOUNT VALUES
 
-
+// Not REPLICATED YET
 void AGPlayerCharacter::StartLeaningLeft()
 {
 	LeaningAmount = -1.0f;
@@ -576,14 +576,17 @@ void AGPlayerCharacter::CalculateFPCameraOrientation()
 		{
 			// Get Camera Rotation
 			FRotator CameraRotation = CameraManager->GetCameraRotation();
-            
+			
 			// Get Yaw and Pitch from Camera Rotation
 			FPCameraYaw = CameraRotation.Yaw;
+			//FPCameraPitchClamped = FMath::GetMappedRangeValueClamped(InRange, OutRange, FPCameraPitch);
 			FPCameraPitch = CameraRotation.Pitch;
 
-			// Log values to check if they are correct
-			//UE_LOG(LogTemp, Warning, TEXT("Camera Yaw: %f, Camera Pitch: %f"), FPCameraYaw, FPCameraPitch);
+						
+				UE_LOG(LogTemp, Warning, TEXT("Camera Pitch: %f"), FPCameraPitch);
 
+			
+				
     	
 		}
 	}
