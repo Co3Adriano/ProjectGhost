@@ -96,11 +96,14 @@ private:
 	float LeaningAmount;
 
 
-	//Refrence to current Weapon no CURRENTWEAPON EXIST IN COMBAT CLASS
+	//Reference to current Weapon no CURRENT WEAPON EXIST IN COMBAT CLASS
+	// for now use EquippedWeapon
+	/// for later: after implementing more weapons they're should be having own IK PROPERTIES
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "IK", meta = (AllowPrivateAccess = "true"))
 	class AWeapon* CurrentWeapon;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "IK", meta = (AllowPrivateAccess = "true"))
 
 	// IK Properties for Aiming
 	FIKProperties IKProperties;
+	
 };
