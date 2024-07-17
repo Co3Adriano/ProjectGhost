@@ -177,7 +177,8 @@ public:
 	void StopLeaningRight();
 	void CalculateFPCameraOrientation();
 
-	float LeaningAmount;
+	UPROPERTY(Replicated)
+	int8 LeaningAmount;
 	
 	FORCEINLINE float GetAO_Yaw() const { return AO_Yaw; }
 

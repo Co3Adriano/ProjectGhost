@@ -39,7 +39,7 @@ class PROJECTGHOST_API UGMovementComponent : public UCharacterMovementComponent
 		{
 			FLAG_Sprint			= 0x10,
 			FLAG_Dash			= 0x20,
-			FLAG_Custom_2		= 0x40,
+			FLAG_Leaning		= 0x40,
 			FLAG_Custom_3		= 0x80,
 		};
 		

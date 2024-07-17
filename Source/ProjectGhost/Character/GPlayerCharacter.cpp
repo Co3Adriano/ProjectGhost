@@ -112,6 +112,7 @@ void AGPlayerCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Ou
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
 	DOREPLIFETIME_CONDITION(AGPlayerCharacter, OverlappingWeapon, COND_OwnerOnly);
+	DOREPLIFETIME(AGPlayerCharacter, LeaningAmount);
 }
 
 
@@ -545,22 +546,22 @@ void AGPlayerCharacter::PlayFireMontage(bool bAiming)
 // Not REPLICATED YET
 void AGPlayerCharacter::StartLeaningLeft()
 {
-	LeaningAmount = -1.0f;
+	LeaningAmount = -1;
 }
 
 void AGPlayerCharacter::StopLeaningLeft()
 {
-	LeaningAmount = 0.0f;
+	LeaningAmount = 0;
 }
 
 void AGPlayerCharacter::StartLeaningRight()
 {
-	LeaningAmount = 1.0f;
+	LeaningAmount = 1;
 }
 
 void AGPlayerCharacter::StopLeaningRight()
 {
-	LeaningAmount = 0.0f;
+	LeaningAmount = 0;
 }
 
 //  AIM OFF SET HEAD SECTION
@@ -581,7 +582,14 @@ void AGPlayerCharacter::CalculateFPCameraOrientation()
 			FPCameraYaw = CameraRotation.Yaw;
 			// Pitch value as Client gets transformed for lower bandwidth Server Pitch =! Client Pitch
 			FPCameraPitch = CameraRotation.Pitch;
-
+			if(FPCameraPitch > 90.f && !IsLocallyControlled())
+			{
+				//Map Pitch to range to [270, 360) to [-90, 0]
+				FVector2d  InRange (270.f, 360.f);
+				FVector2d  OutRange (-90.f, 0.f);
+				FPCameraPitch = FMath::GetMappedRangeValueClamped(InRange, OutRange, FPCameraPitch);
+	
+			}
 						
 				UE_LOG(LogTemp, Warning, TEXT("Camera Pitch: %f"), FPCameraPitch);
 
