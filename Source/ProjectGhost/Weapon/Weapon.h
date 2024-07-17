@@ -16,7 +16,20 @@ enum class EWeaponState : uint8
 	EWS_MAX UMETA(DisplayName = "DefaultMAX")
 };
 
+USTRUCT(BlueprintType)
+struct FIKProperties
+{
+	GENERATED_BODY()
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	class UAnimSequence* AnimPose;
 
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	float AimOffset;
+	
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	FTransform CustomOffsetTransform;
+	
+};
 
 UCLASS()
 class PROJECTGHOST_API AWeapon : public AActor
@@ -80,7 +93,12 @@ private:
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<class ACasing> CasingClass;
 
+	//FIK Properties for First Person View
+	UPROPERTY(EditAnywhere,Category = "Weapon")
+	FIKProperties IKProperties;
 
+	UPROPERTY(EditAnywhere,Category = "Weapon")
+	FTransform PlacementTransform;
 
 	//TEXTURES FOR CROSSHAIR
 	

@@ -6,6 +6,7 @@
 
 #include "Animation/AnimInstance.h"
 #include "ProjectGhost/DataTypes/TurningInPlace.h"
+#include "ProjectGhost/Weapon/Weapon.h"
 #include "PlayerAnimInstance.generated.h"
 
 
@@ -26,7 +27,9 @@ public:
 private:
 	UPROPERTY(BlueprintReadOnly, Category  = "Character", meta = (AllowPrivateAccess = "true") )
 	class AGPlayerCharacter* GCharacter;
-
+	
+	UPROPERTY(BlueprintReadOnly, Category  = "Character", meta = (AllowPrivateAccess = "true") )
+	class USkeletalMeshComponent* Mesh;
 
 
 private:
@@ -67,7 +70,7 @@ private:
 	FRotator DeltaRotation;
 
 
-	
+	//AimOffset Yaw and Pitch
 	UPROPERTY(BlueprintReadOnly, Category  = "Movement", meta = (AllowPrivateAccess = "true") )
 	float AO_Yaw;
 	
@@ -91,4 +94,13 @@ private:
 	
 	UPROPERTY(BlueprintReadOnly, Category  = "Movement", meta = (AllowPrivateAccess = "true") )
 	float LeaningAmount;
+
+
+	//Refrence to current Weapon no CURRENTWEAPON EXIST IN COMBAT CLASS
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "IK", meta = (AllowPrivateAccess = "true"))
+	class AWeapon* CurrentWeapon;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "IK", meta = (AllowPrivateAccess = "true"))
+
+	// IK Properties for Aiming
+	FIKProperties IKProperties;
 };
