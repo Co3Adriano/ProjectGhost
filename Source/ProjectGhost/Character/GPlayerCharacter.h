@@ -175,6 +175,15 @@ public:
 	void StopLeaningLeft();
 	void StartLeaningRight();
 	void StopLeaningRight();
+	UFUNCTION(Server,Reliable)
+	void ServerStartLeaningLeft();
+	UFUNCTION(Server,Reliable)
+	void ServerStopLeaningLeft();
+	UFUNCTION(Server,Reliable)
+	void ServerStartLeaningRight();
+	UFUNCTION(Server,Reliable)
+	void ServerStopLeaningRight();
+	
 	void CalculateFPCameraOrientation();
 	
 	UPROPERTY(Replicated)

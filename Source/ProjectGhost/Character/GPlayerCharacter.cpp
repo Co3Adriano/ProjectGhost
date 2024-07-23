@@ -547,21 +547,55 @@ void AGPlayerCharacter::PlayFireMontage(bool bAiming)
 void AGPlayerCharacter::StartLeaningLeft()
 {
 	LeaningAmount = -45;
+	if(!HasAuthority())
+	{
+		ServerStartLeaningLeft();
+	}
 }
 
 void AGPlayerCharacter::StopLeaningLeft()
 {
 	LeaningAmount = 0;
+	if(!HasAuthority())
+	{
+		ServerStopLeaningLeft();
+	}
 }
 
 void AGPlayerCharacter::StartLeaningRight()
 {
 	LeaningAmount = 45;
+	if(!HasAuthority())
+	{
+		ServerStartLeaningRight();
+	}
 }
 
 void AGPlayerCharacter::StopLeaningRight()
 {
 	LeaningAmount = 0;
+	if(!HasAuthority())
+	{
+		ServerStopLeaningRight();
+	}
+}
+
+void AGPlayerCharacter::ServerStartLeaningLeft_Implementation()
+{
+	StartLeaningLeft();
+}
+
+void AGPlayerCharacter::ServerStopLeaningLeft_Implementation()
+{
+	StopLeaningLeft();
+}
+void AGPlayerCharacter::ServerStartLeaningRight_Implementation()
+{
+	StartLeaningRight();
+}
+void AGPlayerCharacter::ServerStopLeaningRight_Implementation()
+{
+	StopLeaningRight();
 }
 
 //  AIM OFF SET HEAD SECTION
