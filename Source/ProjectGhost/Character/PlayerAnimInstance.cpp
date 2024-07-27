@@ -64,10 +64,11 @@ void UPlayerAnimInstance::NativeUpdateAnimation(float DeltaTime)
 	const float Target = Delta.Yaw / DeltaTime;
 	const float Interp = FMath::FInterpTo(Lean, Target, DeltaTime, 6.0f);
 	Lean = FMath::Clamp(Interp, -90.0f, 90.0f);
-	
+
+	//aim offset yaw and pitch	
 	AO_Yaw = GCharacter->GetAO_Yaw();
 	AO_Pitch = GCharacter->GetAO_Pitch();
-
+	// First Person Camera Pitch and yaw
 	FPCameraYaw = GCharacter ->GetFPCameraYaw();
 	FPCameraPitch = GCharacter->GetFPCameraPitch();
 	LeaningAmount = GCharacter->GetLeaningAmount();

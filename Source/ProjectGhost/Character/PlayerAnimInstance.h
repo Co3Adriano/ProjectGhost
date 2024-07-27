@@ -110,4 +110,7 @@ private:
 	//SPECIFIC CAMERA TRANSFORM
 	UPROPERTY(EditAnywhere,BlueprintReadOnly, Category = "IK Camera", meta = (AllowPrivateAccess = "true"))
 	FTransform FPSCameraTransform;
+
+	UPROPERTY(EditAnywhere,BlueprintReadOnly, Category = "IK Camera", meta = (AllowPrivateAccess = "true"))
+	FTransform FPSRelativeCameraTransform;
 };
