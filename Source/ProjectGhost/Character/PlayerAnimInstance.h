@@ -101,9 +101,13 @@ private:
 	/// for later: after implementing more weapons they're should be having own IK PROPERTIES
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "IK", meta = (AllowPrivateAccess = "true"))
 	class AWeapon* CurrentWeapon;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "IK", meta = (AllowPrivateAccess = "true"))
 
 	// IK Properties for Aiming
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "IK", meta = (AllowPrivateAccess = "true"))
 	FIKProperties IKProperties;
-	
+
+
+	//SPECIFIC CAMERA TRANSFORM
+	UPROPERTY(EditAnywhere,BlueprintReadOnly, Category = "IK Camera", meta = (AllowPrivateAccess = "true"))
+	FTransform FPSCameraTransform;
 };
