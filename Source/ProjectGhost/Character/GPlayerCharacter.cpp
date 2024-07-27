@@ -543,7 +543,7 @@ void AGPlayerCharacter::PlayFireMontage(bool bAiming)
 
 // LEANING AMOUNT VALUES
 
-// Not REPLICATED YET for the Server
+
 void AGPlayerCharacter::StartLeaningLeft()
 {
 	LeaningAmount = -45;
