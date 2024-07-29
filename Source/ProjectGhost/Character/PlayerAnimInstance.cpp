@@ -5,6 +5,7 @@
 
 #include "GPlayerCharacter.h"
 #include "KismetAnimationLibrary.h"
+#include "Camera/CameraComponent.h"
 
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/KismetMathLibrary.h"
@@ -72,6 +73,9 @@ void UPlayerAnimInstance::NativeUpdateAnimation(float DeltaTime)
 	FPCameraYaw = GCharacter ->GetFPCameraYaw();
 	FPCameraPitch = GCharacter->GetFPCameraPitch();
 	LeaningAmount = GCharacter->GetLeaningAmount();
+	
+	//GET FPS CAMERA TRANSFORM for AIM OFFSET IN Control RIG WIP
+	FPSCameraTransform = FTransform(GCharacter->GetBaseAimRotation(), GCharacter->FPSCamera->GetComponentLocation());
 	
 	if (bWeaponEquipped && EquippedWeapon && EquippedWeapon->GetWeaponMesh() && GCharacter->GetMesh())
 	{

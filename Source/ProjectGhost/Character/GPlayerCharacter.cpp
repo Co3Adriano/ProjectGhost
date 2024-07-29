@@ -625,7 +625,7 @@ void AGPlayerCharacter::CalculateFPCameraOrientation()
 	
 			}
 						
-				UE_LOG(LogTemp, Warning, TEXT("Camera Pitch: %f"), FPCameraPitch);
+				//UE_LOG(LogTemp, Warning, TEXT("Camera Pitch: %f"), FPCameraPitch);
 
 			
 				

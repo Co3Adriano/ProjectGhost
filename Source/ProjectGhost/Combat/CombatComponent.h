@@ -23,6 +23,7 @@ public:
 
 
 	void TraceUnderCrosshair(FHitResult& TraceHitResult);
+	FVector HitTarget;
 
 protected:
 	virtual void BeginPlay() override;
