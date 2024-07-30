@@ -33,6 +33,8 @@ void UCombatComponent::BeginPlay()
 void UCombatComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+	FHitResult HitResult;
+    TraceUnderCrosshair(HitResult);
 	
 }
 
@@ -134,10 +136,7 @@ void UCombatComponent::TraceUnderCrosshair(FHitResult& TraceHitResult)
 		GEngine -> GameViewport -> GetViewportSize(ViewportSize);
 	}
 	
-		
-	
-		
-	
+	//Get the screen space location of the crosshair	
 	FVector2D CrosshairLocation(ViewportSize.X / 2.f, ViewportSize.Y / 2.f);
 	FVector CrosshairWorldPosition;
 	FVector CrosshairWorldDirection;
@@ -160,7 +159,28 @@ void UCombatComponent::TraceUnderCrosshair(FHitResult& TraceHitResult)
 			End,
 			ECC_Visibility
 			);
-	
+		if (!TraceHitResult.bBlockingHit)
+		{
+			TraceHitResult.ImpactPoint = End;
+		}
+		else
+		{
+			/*DrawDebugLine(
+				GetWorld(),
+				Start,
+				TraceHitResult.ImpactPoint,
+				FColor::Red,
+				false,
+				1.5f
+				);	*/
+			DrawDebugSphere(
+				GetWorld(),
+				TraceHitResult.ImpactPoint,
+				12.f,
+				12,
+				FColor::Red
+			);
+		}
 	}
 }
 
