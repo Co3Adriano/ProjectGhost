@@ -85,7 +85,7 @@ private:
 	float FPCameraPitch;
 
 	
-	UPROPERTY(BlueprintReadOnly, Category  = "Movement", meta = (AllowPrivateAccess = "true") )
+	UPROPERTY(BlueprintReadWrite, Category  = "Movement", meta = (AllowPrivateAccess = "true") )
 	FTransform LeftHandTransform;
 
 	
