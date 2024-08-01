@@ -95,6 +95,13 @@ private:
 	UPROPERTY(BlueprintReadOnly, Category  = "Movement", meta = (AllowPrivateAccess = "true") )
 	float LeaningAmount;
 
+	UPROPERTY(BlueprintReadOnly, Category = "WeaponTransform", meta = (AllowPrivateAccess = "true"))
+	FTransform IronSightTransform;
+	
+
+
+
+	
 
 	//Reference to current Weapon no CURRENT WEAPON EXIST IN COMBAT CLASS
 	// for now use EquippedWeapon
@@ -102,10 +109,11 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "IK", meta = (AllowPrivateAccess = "true"))
 	class AWeapon* CurrentWeapon;
 
+
+	
 	// IK Properties for Aiming
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "IK", meta = (AllowPrivateAccess = "true"))
 	FIKProperties IKProperties;
-
 
 	//SPECIFIC CAMERA TRANSFORM
 	UPROPERTY(EditAnywhere,BlueprintReadOnly, Category = "IK Camera", meta = (AllowPrivateAccess = "true"))

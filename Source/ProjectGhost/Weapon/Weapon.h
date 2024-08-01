@@ -103,8 +103,6 @@ private:
 	//TEXTURES FOR CROSSHAIR
 	
 public:
-
-	
 	void SetWeaponState(EWeaponState State);
 	FORCEINLINE  USphereComponent* GetAreaSphere() const { return AreaSphere; }
 

@@ -1,12 +1,9 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
+// Project Ghost PlayerAnimInstance.cpp Adriano Menconi 2024 
 
 #include "PlayerAnimInstance.h"
-
 #include "GPlayerCharacter.h"
 #include "KismetAnimationLibrary.h"
 #include "Camera/CameraComponent.h"
-
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "ProjectGhost/Weapon/Weapon.h"
@@ -69,14 +66,16 @@ void UPlayerAnimInstance::NativeUpdateAnimation(float DeltaTime)
 	//aim offset yaw and pitch	
 	AO_Yaw = GCharacter->GetAO_Yaw();
 	AO_Pitch = GCharacter->GetAO_Pitch();
-	// First Person Camera Pitch and yaw
+
+	// First Person Camera Pitch and yaw from GPlayerCharacter
 	FPCameraYaw = GCharacter ->GetFPCameraYaw();
 	FPCameraPitch = GCharacter->GetFPCameraPitch();
 	LeaningAmount = GCharacter->GetLeaningAmount();
 	
-	//GET FPS CAMERA TRANSFORM for AIM OFFSET IN Control RIG WIP
+	//GET FPS CAMERA TRANSFORM for AIM OFFSET IN Control RIG 
 	FPSCameraTransform = FTransform(GCharacter->GetBaseAimRotation(), GCharacter->FPSCamera->GetComponentLocation());
 	
+	// Left hand Transform for left hand position to left hand socket
 	if (bWeaponEquipped && EquippedWeapon && EquippedWeapon->GetWeaponMesh() && GCharacter->GetMesh())
 	{
 		LeftHandTransform = EquippedWeapon->GetWeaponMesh()->GetSocketTransform(FName("LeftHandSocket"), ERelativeTransformSpace::RTS_World);
@@ -85,8 +84,13 @@ void UPlayerAnimInstance::NativeUpdateAnimation(float DeltaTime)
 		GCharacter->GetMesh()->TransformToBoneSpace(FName("hand_r"), LeftHandTransform.GetLocation(), FRotator::ZeroRotator, OutPosition, OutRotation);
 		LeftHandTransform.SetLocation(OutPosition);
 		LeftHandTransform.SetRotation(FQuat(OutRotation));
+
+		//Iron Sight Sockets and Scope Sight Sockets for Transforming SocketTransform to Viewport Center	
+		IronSightTransform = EquippedWeapon->GetWeaponMesh()->GetSocketTransform(FName("IronSightSocket"), RTS_World);
+		GEngine->AddOnScreenDebugMessage(-1, 0.f, FColor::Red, IronSightTransform.GetLocation().ToString());
 		
-				
+		
+						
 	}
 	
 }
