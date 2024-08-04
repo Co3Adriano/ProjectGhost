@@ -133,6 +133,7 @@ void AGPlayerCharacter::Tick(float DeltaTime)
 
 	// Calculate Aim Offset every tick toDo DeltaTime as Argument
 	CalculateFPCameraOrientation();
+	
 }
 
 
@@ -625,7 +626,7 @@ void AGPlayerCharacter::CalculateFPCameraOrientation()
 	
 			}
 						
-				//UE_LOG(LogTemp, Warning, TEXT("Camera Pitch: %f"), FPCameraPitch);
+				UE_LOG(LogTemp, Warning, TEXT("Camera Pitch: %f"), FPCameraPitch);
 
 			
 				
