@@ -119,13 +119,13 @@ public:
 	class UCameraComponent* FollowCamera;
 
 
-	/*FPSCamera Section*/
+	/*FPSCamera Section
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class USpringArmComponent* FPSCameraBoom;
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class UCameraComponent* FPSCamera;
-
+	*/
 	UFUNCTION(BlueprintPure)
 	FORCEINLINE UGMovementComponent* GetGPlayerCharacterMovement() const { return GMovementComponent; }
 
@@ -143,6 +143,11 @@ private:
 	UFUNCTION()
 	void OnRep_OverlappingWeapon(AWeapon* LastWeapon);
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aiming", meta = (AllowPrivateAccess = "true"))
+	FVector AimOffsetLocation;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Aiming", meta = (AllowPrivateAccess = "true"))
+	FRotator AimOffsetRotation;
 
 	UPROPERTY(VisibleAnywhere)
 	class UCombatComponent* Combat;
@@ -185,7 +190,10 @@ public:
 	void ServerStopLeaningRight();
 	
 	void CalculateFPCameraOrientation();
+
+
 	
+	/*Leaning Section*/	
 	UPROPERTY(Replicated)
 	int8 LeaningAmount;
 	
@@ -200,6 +208,8 @@ public:
 	FORCEINLINE float GetFPCameraPitch() const { return FPCameraPitch; }
 
 
+
+	
 	
 	//Getter for TurningInPlace
 	FORCEINLINE ETurningInPlace GetTurningInPlace() const { return TurningInPlace; }

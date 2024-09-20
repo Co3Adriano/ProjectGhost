@@ -96,8 +96,10 @@ private:
 	float LeaningAmount;
 
 	UPROPERTY(BlueprintReadOnly, Category = "WeaponTransform", meta = (AllowPrivateAccess = "true"))
-	FTransform IronSightTransform;
-	
+	FTransform ScopeTransform;
+
+	UPROPERTY(BlueprintReadOnly, Category = "WeaponTransform", meta = (AllowPrivateAccess = "true"))
+	FVector LeftHandDistance;
 
 
 
@@ -121,4 +123,12 @@ private:
 
 	UPROPERTY(EditAnywhere,BlueprintReadOnly, Category = "IK Camera", meta = (AllowPrivateAccess = "true"))
 	FTransform FPSRelativeCameraTransform;
+
+
+	// Aim Offset Location and Rotation for Aim Down Sights
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "IK", meta = (AllowPrivateAccess = "true"))
+	FVector AimOffsetLocation;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "IK", meta = (AllowPrivateAccess = "true"))
+	FRotator AimOffsetRotation;
 };

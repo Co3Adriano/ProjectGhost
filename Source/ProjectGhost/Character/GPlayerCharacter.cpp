@@ -72,18 +72,21 @@ AGPlayerCharacter::AGPlayerCharacter(const FObjectInitializer& ObjectInitializer
 	FollowCamera->SetActive(false);
 
 
-	//First Person Camera
-	FPSCameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("FPSCameraBoom"));
 	
+	
+	
+	
+	//First Person Camera Section  
+	/*FPSCameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("FPSCameraBoom"));
 	FPSCameraBoom->TargetArmLength = 5.0f;
-	FPSCameraBoom->SetupAttachment(GetMesh(),  "neck_02");
+	//FPSCameraBoom->SetupAttachment(GetMesh(),  "neck_02");
 	FPSCameraBoom->bUsePawnControlRotation = true;
 	FPSCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FPSCamera"));
 	FPSCamera->SetupAttachment(FPSCameraBoom, USpringArmComponent::SocketName);
 	FPSCamera->bUsePawnControlRotation = false;
 	FPSCamera->FieldOfView = 90.f;
 	FPSCamera->SetActive(false);
-
+*/
 		
 	
 	// Orient rotation to movement 
@@ -626,7 +629,7 @@ void AGPlayerCharacter::CalculateFPCameraOrientation()
 	
 			}
 						
-				UE_LOG(LogTemp, Warning, TEXT("Camera Pitch: %f"), FPCameraPitch);
+				
 
 			
 				
@@ -634,4 +637,7 @@ void AGPlayerCharacter::CalculateFPCameraOrientation()
 		}
 	}
 }
+
+
+	
 

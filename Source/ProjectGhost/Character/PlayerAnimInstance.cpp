@@ -73,24 +73,62 @@ void UPlayerAnimInstance::NativeUpdateAnimation(float DeltaTime)
 	LeaningAmount = GCharacter->GetLeaningAmount();
 	
 	//GET FPS CAMERA TRANSFORM for AIM OFFSET IN Control RIG 
-	FPSCameraTransform = FTransform(GCharacter->GetBaseAimRotation(), GCharacter->FPSCamera->GetComponentLocation());
+//	FPSCameraTransform = FTransform(GCharacter->GetBaseAimRotation(), GCharacter->FPSCamera->GetComponentLocation());
 	
 	// Left hand Transform for left hand position to left hand socket
 	if (bWeaponEquipped && EquippedWeapon && EquippedWeapon->GetWeaponMesh() && GCharacter->GetMesh())
 	{
+		// Transform the LeftHandSocket location into the space of the right hand bone
 		LeftHandTransform = EquippedWeapon->GetWeaponMesh()->GetSocketTransform(FName("LeftHandSocket"), ERelativeTransformSpace::RTS_World);
 		FVector OutPosition;
 		FRotator OutRotation;
+		// Update LeftHandTransform with the calculated position and rotation
 		GCharacter->GetMesh()->TransformToBoneSpace(FName("hand_r"), LeftHandTransform.GetLocation(), FRotator::ZeroRotator, OutPosition, OutRotation);
 		LeftHandTransform.SetLocation(OutPosition);
 		LeftHandTransform.SetRotation(FQuat(OutRotation));
 
-		//Iron Sight Sockets and Scope Sight Sockets for Transforming SocketTransform to Viewport Center	
-		IronSightTransform = EquippedWeapon->GetWeaponMesh()->GetSocketTransform(FName("IronSightSocket"), RTS_World);
-		GEngine->AddOnScreenDebugMessage(-1, 0.f, FColor::Red, IronSightTransform.GetLocation().ToString());
+		// Draw Debug Sphere at LeftHandSocket Location
+		DrawDebugSphere(GetWorld(), LeftHandTransform.GetLocation(), 5.f, 12, FColor::Green, false, 0.1f);
 		
+		//Scope  Sockets for Transforming SocketTransform to Viewport Center	
+		ScopeTransform = EquippedWeapon->GetWeaponMesh()->GetSocketTransform(FName("ScopeSocket"), RTS_World);
+		// Log the scope location
+		UE_LOG(LogTemp, Warning, TEXT("Scope Socket Location: %s"), *ScopeTransform.GetLocation().ToString());
+
+		// Draw Debug Sphere at ScopeSocket Location
+		DrawDebugSphere(GetWorld(), ScopeTransform.GetLocation(), 5.f, 12, FColor::Red, false, 0.1f);
+		
+		//  Calculate Location Offset to align ScopeSocket with the Camera Viewport Center
+		FVector TargetLocation = FPSCameraTransform.GetLocation() + FPSCameraTransform.GetRotation().Vector() * 100.0f; // Adjust distance as needed
+		FVector LocationOffset = TargetLocation - ScopeTransform.GetLocation();
+
+		// Draw Debug Line from ScopeSocket to TargetLocation
+		//DrawDebugLine(GetWorld(), ScopeTransform.GetLocation(), TargetLocation, FColor::Blue, false, 0.1f, 0, 2.f);
+
+		// Calculate Rotation Offset to align the ScopeSocket with the Camera's forward direction
+		FRotator RotationOffset = FPSCameraTransform.GetRotation().Rotator() - ScopeTransform.GetRotation().Rotator();
+
+		// Hand Transform
+		LeftHandDistance = LeftHandTransform.GetLocation() - ScopeTransform.GetLocation();
+		
+		// Store the calculated offsets for use in the Animation Blueprint
+		AimOffsetLocation = LocationOffset;
+		AimOffsetRotation = RotationOffset;
+		
+		// Debugging: Output the calculated offsets
+		
+		// Log the calculated offsets
+		//UE_LOG(LogTemp, Warning, TEXT("Aim Offset Location: %s"), *AimOffsetLocation.ToString());
+		//UE_LOG(LogTemp, Warning, TEXT("Aim Offset Rotation: %s"), *AimOffsetRotation.ToString());
+
+		// Draw Debug Arrows to visualize direction and orientation
+	//	DrawDebugLine(GetWorld(), FPSCameraTransform.GetLocation(), TargetLocation, FColor::Yellow, false, 0.1f, 0, 2.f);
+		DrawDebugSphere(GetWorld(), TargetLocation, 5.f, 12, FColor::Cyan, false, 0.1f);
+	}
 		
 						
 	}
+
 	
-}
+	
+
