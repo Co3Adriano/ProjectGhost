@@ -60,7 +60,7 @@ void UCombatComponent::EquipWeapon(AWeapon* WeaponToEquip)
 	EquippedWeapon = WeaponToEquip;
 	EquippedWeapon->SetWeaponState(EWeaponState::EWS_Equipped);
 
-	//Attach Weapon to Skeletal Mesh->RightHandSocket
+	//Attach Weapon to Skeletal Mesh->RightHandSocket third and first person 
 	const USkeletalMeshSocket* RightHandSocket =  Character->GetMesh()->GetSocketByName(FName("RightHandSocket"));
 	
 	
